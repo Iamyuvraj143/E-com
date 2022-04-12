@@ -1,19 +1,20 @@
 <h1>Welcome</h1>
+
 <% if Current.user %>
-<div class="card ">
-<% begin %>
-<%= image_tag @user.image, size: "260x180" %>
-<% rescue %>
-<%= @user.image %>
+  <div class="card ">
+    <% begin %>
+      <%= image_tag @user.image, size: "260x180" %>
+    <% rescue %>
+      <%= @user.image %>
+    <% end %>
+    <div class="card-body">
+      <h5 class="card-title">   Name: <%= @user.name %></h5>
+      <p class="card-text"> Logged in as: <%= @user.email %></p>
+    </div>
+  </div>
+  <%= button_to 'Logout', logout_path, method: :delete %>
+<% else %>
+  <%= link_to 'Sign Up', sign_up_path %>
+  or
+  <%= link_to 'Login', sign_in_path %>
 <% end %>
-     <div class="card-body">
-     <h5 class="card-title">   Name: <%= @user.name %></h5>
-     <p class="card-text"> Logged in as: <%= @user.email %></p>
-   </div>
- </div>
-    <%= button_to 'Logout', logout_path, method: :delete %>
-    <% else %>
-    <%= link_to 'Sign Up', sign_up_path %>
-    or
-    <%= link_to 'Login', sign_in_path %>
-  <% end %>
