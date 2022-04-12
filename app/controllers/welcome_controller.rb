@@ -2,5 +2,4 @@ class WelcomeController < ApplicationController
   def index
     @user = Current.user
   end
-  
 end
