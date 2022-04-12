@@ -2,7 +2,7 @@
 <% if Current.user %>
 <div class="card ">
 <% begin %>
-<%= image_tag @user.image, :size => "260x180" %>
+<%= image_tag @user.image, size: "260x180" %>
 <% rescue %>
 <%= @user.image %>
 <% end %>
