@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <%= image_tag("https://www.seekpng.com/png/detail/429-4290324_website-development-company-in-delhi-ecommerce-website-logo.png", width: 200, height: 50) %>
+    <a class="navbar-brand" href="#">E-com</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Mobile Phones</a></li>
+            <li><a class="dropdown-item" href="#">Mobile accessories</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active">Best Sellers</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <ul class="navbar-nav ">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">My cart </a>
+        </li> 
+        <% if Current.user %>
+            <li class="nav-item">
+           <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Account
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">My Oders</a></li>
+            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <l>  <%= button_to 'Logout', logout_path,  method: :delete, :class => 'dropdown-item'  %></l>
+          </ul>
+        </li>
+           <% else %>
+            <li class="nav-item">
+              <%= link_to "Login", sign_in_path, :class => 'nav-link active'  %>
+            </li>
+             <% end %>
+         <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Help</a>
+        </li>
+      </ul> 
+    </div>
+  </div>
+</nav>
