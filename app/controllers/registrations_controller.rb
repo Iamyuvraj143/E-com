@@ -5,7 +5,6 @@ class RegistrationsController < ApplicationController
   end
   
   def create
-    
     @user = User.new(user_params)
       if @user.save
         # stores saved user id in a session
