@@ -1,19 +1,41 @@
-<h1>Welcome</h1>
-<% if Current.user %>
-  <div class="card ">
-    <% begin %>
-      <%= image_tag @user.image, size: "260x180" %>
-    <% rescue %>
-      <%= @user.image %>
-    <% end %>
-    <div class="card-body">
-      <h5 class="card-title">   Name: <%= @user.name %></h5>
-      <p class="card-text"> Logged in as: <%= @user.email %></p>
-    </div>
+<h1>Welcome to E-com</h1>
+<% @products.each do |product| %>
+  <div class= "container">
+    <table class="table">
+      <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">description</th>
+        <th scope="col">category</th>
+        <th scope="col">Image</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td><%= link_to product.name, product %></td>
+          <td><%= product.price %></td>
+          <td><%= product.quantity %></td>
+          <th><%= truncate product.description, length: 70 %></th>
+          <td><%= product.category %></td>
+          <td><%= image_tag(product.image, width: 200, height: 200) %></td>
+          <td> <% if Current.user %>
+            <a href="#" class="btn btn-primary">Buy Now</a>
+            <a href="#" class="btn btn-secondary">Add to cart</a>
+          <% else %>
+            <%= link_to "Buy Now", sign_in_path, :class => 'btn btn-primary'  %>
+            <%= link_to "Add to cart", sign_in_path, :class => 'btn btn-secondary'  %>
+          <% end %></td>
+        </tr>    
+      </tbody>
+    </table>
   </div>
-  <%= button_to 'Logout', logout_path, method: :delete %>
+<% end %>
+
+<% if Current.user && Current.user.email=="admin@gmail.com" %>
+  <h6> You are admin , can add more items</h6>
+  <%= link_to "Add new product", new_product_path %>
 <% else %>
-  <%= link_to 'Sign Up', sign_up_path %>
-  or
-  <%= link_to 'Login', sign_in_path %>
 <% end %>
