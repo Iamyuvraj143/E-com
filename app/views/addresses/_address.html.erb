@@ -1,0 +1,30 @@
+<p>
+  <strong>Address:</strong>
+  <%= address.address_line %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= address.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= address.state %>
+</p>
+
+<p>
+  <strong>Zipcode:</strong>
+  <%= address.zipcode %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= address.country %>
+</p>
+
+<p>
+  <%= link_to 'Delete Address', [address.user, address], class: "btn btn-primary",
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %>
+</p>
