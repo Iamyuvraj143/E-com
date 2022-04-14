@@ -6,7 +6,6 @@ class AddressesController < ApplicationController
   end
 
   def destroy
-    @user = Current.user
     @user = User.find(params[:user_id])
     @address = @user.addresses.find(params[:id])
     @address.destroy
