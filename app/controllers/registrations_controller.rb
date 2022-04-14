@@ -21,4 +21,8 @@ class RegistrationsController < ApplicationController
     params.require(:user).permit(:email, :password, :password_confirmation, :name, :image)
   end
 
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> main

@@ -1,25 +1,33 @@
 <h1>Sign Up</h1>
-  <%= form_with model: @user, url: sign_up_path do |f| %>
-    <p>
+<%= form_with model: @user, url: sign_up_path do |f| %>
+  <p>
     <%= f.label 'email' %><br>
     <%= f.text_field :email %>
-    </p>
+  </p>
+
+  <p>
     <%= f.label 'name' %><br>
     <%= f.text_field :name %>
-    </p>
+  </p>
+
+  <p>
     <%= f.label 'image url' %><br>
     <%= f.text_field :image %>
-    </p>
-    <p>
+  </p>
+
+  <p>
     <%= f.label 'password' %><br>
     <%= f.password_field :password %>
-    </p>
-    <p>
+  </p>
+
+  <p>
     <%= f.label 'password_confirmation' %><br>
     <%= f.password_field :password_confirmation %>
-    </p>
-    <p>
+  </p>
+
+  <p>
     <%= f.submit 'Sign Up' %>
-    </p>
-  <% end %>
-  <%= link_to 'Login', sign_in_path  %>
+  </p>
+
+<% end %>
+<%= link_to 'Login', sign_in_path  %>
