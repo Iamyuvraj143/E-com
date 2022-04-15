@@ -1,5 +1,6 @@
 <h2>Add a address:</h2>
-<%= form_with model: [ @user, @user.addresses.build ] do |form| %>
+<%= form_with model: [ @user, @address.build ] do |form| %>
+
   <p>
     <%= form.label :address %><br>
     <%= form.text_field :address_line %>
@@ -22,7 +23,7 @@
 
    <p>
     <%= form.label :zipcode %><br>
-    <%= form.text_area :zipcode %>
+    <%= form.number_field:zipcode %>
   </p>
 
   <p>

@@ -13,9 +13,8 @@
   <body>
     <%= render 'welcome/header' %>
     <% if notice || alert %>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-  <% end %>
-  <%= yield %>
+      <%= render 'welcome/alert' %>
+    <% end %>
+    <%= yield %>
   </body>
 </html>

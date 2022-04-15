@@ -1,17 +1,31 @@
 class AddressesController < ApplicationController
+  
   def create
-    @user = Current.user
-    @address = @user.addresses.create(address_params)
-    redirect_to user_path(@user)
-    flash[:notice] = "Address added Succesfully."
+    @address = Current.user.addresses.create(address_params)
+    if @address.save
+      redirect_to user_path(Current.user)
+      flash[:notice] = "Address added Succesfully."
+    else
+      redirect_to user_path(Current.user)
+      flash[:notice] = "Address can not be saved All Field are required."
+    end
   end
 
   def destroy
-    @user = User.find(params[:user_id])
-    @address = @user.addresses.find(params[:id])
-    @address.destroy
-    redirect_to user_path(@user), status: 303
-    flash[:notice] = "Address Deleted Succesfully."
+    begin
+      user = User.find(params[:user_id])
+      @address = user.addresses.find(params[:id])
+      if @address.destroy
+        redirect_to user_path(user), status: 303
+        flash[:notice] = "Address Deleted Succesfully."
+      else
+        redirect_to user_path(user), status: 303
+        flash[:notice] = "Address not Deleted."
+      end
+    rescue StandardError => e
+      redirect_to root_path, status: 303
+      flash[:notice] = "Something went Wrong.#{e}"
+    end
   end
 
   private

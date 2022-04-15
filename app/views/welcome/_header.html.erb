@@ -32,26 +32,24 @@
         </li> 
         <% if Current.user %>
             <li class="nav-item">
-           <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Account
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">My Oders</a></li>
-            <li>  <%= link_to 'Profile', user_path(@user),  :class => 'dropdown-item'  %></li>
-            <li><hr class="dropdown-divider"></li>
-            <li>  <%= link_to 'Logout', logout_path,  method: :delete, :class => 'dropdown-item'  %></li>
-          </ul>
-        </li>
-           <% else %>
-            <li class="nav-item">
-              <%= link_to "Login", sign_in_path, :class => 'nav-link active'  %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Account</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">My Oders</a></li>
+                <li>  <%= link_to 'Profile', user_path(@user),  :class => 'dropdown-item' %></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>  <%= link_to 'Logout', logout_path,  method: :delete, :class => 'dropdown-item'  %></li>
+              </ul>
             </li>
-             <% end %>
-         <li class="nav-item">
+        <% else %>
+          <li class="nav-item">
+          <%= link_to "Login", sign_in_path, :class => 'nav-link active' %></li>
+        <% end %>
+          <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Help</a>
-        </li>
-      </ul> 
+          </li>
+        </ul> 
     </div>
   </div>
 </nav>

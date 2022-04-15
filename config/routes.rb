@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   get 'sign_in', to: 'sessions#new'
   post 'sign_in', to: 'sessions#create', as: 'log_in'
   delete 'logout', to: 'sessions#destroy'
-  resources :users do
-    resources :addresses
+  resources :users, only: [:show] do
+    resources :addresses, only: [:create, :destroy]
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
