@@ -1,38 +1,36 @@
 <h1>Welcome to E-com</h1>
-<% @products.each do |product| %>
-  <div class= "container">
-    <table class="table">
-      <thead>
-        <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Price</th>
-        <th scope="col">description</th>
-        <th scope="col">category</th>
-        <th scope="col">Image</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td><%= link_to product.name, product %></td>
-          <td><%= product.price %></td>
-          <td><%= product.quantity %></td>
-          <th><%= truncate product.description, length: 70 %></th>
-          <td><%= product.category %></td>
-          <td><%= image_tag(product.image, width: 200, height: 200) %></td>
-          <td> <% if Current.user %>
-            <a href="#" class="btn btn-primary">Buy Now</a>
-            <a href="#" class="btn btn-secondary">Add to cart</a>
-          <% else %>
-            <%= link_to "Buy Now", sign_in_path, :class => 'btn btn-primary'  %>
-            <%= link_to "Add to cart", sign_in_path, :class => 'btn btn-secondary'  %>
-          <% end %></td>
-        </tr>    
-      </tbody>
-    </table>
+<div class="container" >
+   <% if Current.user %>
+    Current User: <%= Current.user.email %><br>
+  <% end %>
+  <div class="row">
+ <% @products.each do |product| %>
+<div  class="card " style="width: 20rem;">
+  <div class="card-img-top" >
+     <%= image_tag(product.image, width: 200, height: 200) %>
+   </div>
+  <div class="card-body">
+    <div class="card-title">
+    <h5> <%= link_to product.name, product %> </h5></div>
+    <p class="card-text"> <%= product.price %></p>
+    <p class="card-text"> <%= truncate product.description, length: 70 %></p>
+    <p> <% if product.quantity > 0 %>
+             <h6 style="color:MediumSeaGreen;">In Stock</h6>
+             <% else %>
+             <h6 style="color:Tomato;">Out of Stock</h6>
+             <% end %> </p>
+     <% if Current.user %>
+      <a href="#" class="btn btn-primary">Buy</a>
+     <a href="#" class="btn btn-primary">Add to cart</a>
+    <% else %>
+    <%= link_to "Buy Now", sign_in_path, :class => 'btn btn-primary'  %>
+    <%= link_to "Add to cart", sign_in_path, :class => 'btn btn-primary'  %>
+    <% end %>
   </div>
+</div>
 <% end %>
+</div>
+</div>
 
 <% if Current.user && Current.user.email=="admin@gmail.com" %>
   <h6> You are admin , can add more items</h6>
