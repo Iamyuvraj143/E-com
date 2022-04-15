@@ -1,5 +1,7 @@
 class AddressesController < ApplicationController
   
+  before_action :set_current_user
+  
   def create
     @address = Current.user.addresses.create(address_params)
     if @address.save
