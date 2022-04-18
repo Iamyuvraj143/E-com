@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
-
+  before_action :auth_check
+  
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by(id: Current.user[:id]) 
     @addresses = @user.addresses.compact
-    @address = @user.addresses.new
   end
 
 end

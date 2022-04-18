@@ -24,6 +24,10 @@
 </p>
 
 <p>
+  <%= link_to "Edit", edit_user_address_path(@user, address) ,  class: "btn btn-primary" %>
+</p>
+
+<p>
   <%= link_to 'Delete Address', [address.user, address], class: "btn btn-primary",
                method: :delete,
                data: { confirm: 'Are you sure?' } %>
