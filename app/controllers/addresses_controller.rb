@@ -1,5 +1,6 @@
 class AddressesController < ApplicationController
   before_action :auth_check
+  before_action :load_user, only: %i( edit destroy update)
 
   def new
     @user = Current.user 
@@ -18,21 +19,18 @@ class AddressesController < ApplicationController
 
   def edit
     begin
-      @user = User.find_by(id: session[:user_id])
-      @address = @user.addresses.find_by(id: params[:id])
     rescue StandardError => e
       redirect_to root_path, status: 303
-      flash[:notice] = "Something went Wrong.#{e}"
+      flash[:notice] = "Something went Wrong => .#{e}"
     end
   end
 
    def update
     begin
-      user = User.find_by(id: session[:user_id]) 
-      @address = user.addresses.find_by(id: params[:id])
-      if @address!=nil
+      if @address.present?
         if @address.update(address_params)
-          redirect_to user_path(user)
+          redirect_to user_path(@user)
+           flash[:notice] = "Address updated succesfully."
         else
           render :edit, status: :unprocessable_entity
         end
@@ -46,14 +44,12 @@ class AddressesController < ApplicationController
 
   def destroy
     begin
-      user = User.find_by(id: session[:user_id]) 
-      @address = user.addresses.find_by(id: params[:id])
-      if @address!=nil
+      if @address.present?
         @address.destroy 
-        redirect_to user_path(user), status: 303
+        redirect_to user_path(@user), status: 303
         flash[:notice] = "Address Deleted Succesfully."
       else
-        redirect_to user_path(user), status: 303
+        redirect_to user_path(@user), status: 303
         flash[:notice] = "Address not Deleted :- address not found."
       end
     rescue StandardError => e
@@ -66,6 +62,11 @@ class AddressesController < ApplicationController
 
   def address_params
     params.require(:address).permit(:address_line, :city, :state, :zipcode, :country)
+  end
+
+  def load_user
+    @user = User.find_by(id: session[:user_id]) 
+    @address = @user.addresses.find_by(id: params[:id])
   end
 
 end

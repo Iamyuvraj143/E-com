@@ -11,9 +11,9 @@
   </head>
 
   <body>
-    <%=render 'welcome/header' %>
+    <%=render 'layouts/header' %>
     <% if notice || alert %>
-      <%= render 'welcome/alert' %>
+      <%= render 'layouts/alert' %>
     <% end %>
     <%= yield %>
   </body>
