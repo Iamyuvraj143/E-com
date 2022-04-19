@@ -1,0 +1,17 @@
+<h1>My Account </h1>
+  <div class="card ">
+    <% begin %>
+      <%= image_tag @user.image, :size => "260x180", :class=> "img-circular" %>
+    <% rescue %>
+      <%= @user.image %>
+    <% end %>
+    <div class="card-body">
+      <h5 class="card-title">   Name: <%= @user.name %></h5>
+      <p class="card-text"> Logged in as: <%= @user.email %></p>
+      <div class="card">
+        <h6> Addresses </h6>
+        <%= render @addresses  %>
+        <%= link_to "Add a new Addeess", new_user_address_path(@user, @address) %>
+      </div>
+    </div>
+  </div>
