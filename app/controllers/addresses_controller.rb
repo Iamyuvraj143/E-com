@@ -45,16 +45,16 @@ class AddressesController < ApplicationController
   def load_user
       @user = Current.user
       @address = @user.addresses.find_by(id: params[:id])
-      if !@address.present?
+      unless @address.present?
         redirect_to user_path(@user)
-        flash[:notice] = "Something wnet Wrong :- Address does not exist."
+        flash[:notice] = "Something went Wrong :- Address does not exist."
       end
   end
 
   def auth_check
     # allows only logged in user
     @user = User.find_by(id: params[:user_id])
-    if @user.nil? || Current.user.id != @user.id
+    if Current.user.id != @user&.id
       redirect_to root_path
       flash[:notice] = "Invalid opertion performed."
     end
