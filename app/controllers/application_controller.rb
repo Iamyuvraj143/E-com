@@ -9,10 +9,10 @@ class ApplicationController < ActionController::Base
 
   def auth_check
     # allows only logged in user
-    @user = User.find_by(id: session[:user_id])
-    if session[:user_id] != @user.id
-      redirect_to user_path(Current.user)
-      flash[:notice] = "Invalid opertion performed."
+   @user = User.find_by(id: params[:id])  
+    if @user.nil? || Current.user.id != @user.id  
+      redirect_to root_path
+      flash[:notice] = "Invalid opertion performed. "
     end
   end
 
