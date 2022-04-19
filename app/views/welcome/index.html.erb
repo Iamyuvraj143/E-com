@@ -1,5 +1,4 @@
 <h1>Welcome to E-com</h1>
-<div class="container" >
    <% if Current.user %>
     Current User: <%= Current.user.email %><br>
   <% end %>
@@ -29,7 +28,6 @@
   </div>
 </div>
 <% end %>
-</div>
 </div>
 
 <% if Current.user && Current.user.email=="admin@gmail.com" %>
