@@ -50,10 +50,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  def is_admin?
-    Current.user&.email == "admin@gmail.com" ? true : false
-  end
-
   def load_product
     @product = Product.find_by(id: params[:id])
     unless @product.present?

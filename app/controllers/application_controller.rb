@@ -7,4 +7,8 @@ class ApplicationController < ActionController::Base
     Current.user = User.find_by(id: session[:user_id]) if session[:user_id]
   end
 
+  def is_admin?
+    Current.user&.email == "admin@gmail.com"
+  end
+
 end

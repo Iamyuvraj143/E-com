@@ -4,10 +4,4 @@ class WelcomeController < ApplicationController
     @products = Product.all
   end
 
-  private
-
-  def is_admin?
-    Current.user&.email == "admin@gmail.com" ? true : false
-  end
-
 end
