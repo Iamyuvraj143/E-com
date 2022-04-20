@@ -6,22 +6,20 @@ class ProductsController < ApplicationController
     @product = Product.new
   end
 
-  def show
-    @is_admin = is_admin?
-  end
+  def show; end
 
   def create
     @product = Product.new(product_params)
 
     if @product.save
       redirect_to @product
+       flash[:notice] = "Product added succesfully."
     else
       render :new
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @product.update(product_params)

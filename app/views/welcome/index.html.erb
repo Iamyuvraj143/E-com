@@ -25,8 +25,7 @@
     </div>
   <% end %>
 </div>
-
-<% if @is_admin %>
+<% if is_admin? %>
   <h6> You are admin , can add more items</h6>
   <%= link_to "Add new product", new_product_path %>
 <% end %>

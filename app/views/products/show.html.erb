@@ -17,7 +17,7 @@
       <a href="#" class="btn btn-primary">Buy</a>
       <a href="#" class="btn btn-primary">Add to Cart</a>
       <li><%= link_to "Home", root_path(@product) %></li>
-      <% if @is_admin %>
+      <% if is_admin? %>
         <li><%= link_to "Edit", edit_product_path(@product) %></li>
         <li><%= link_to "Destroy", product_path(@product), data: {
                     method: :delete,
