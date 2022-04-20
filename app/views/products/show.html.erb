@@ -1,0 +1,29 @@
+<h1>Product detail page</h1>
+<h2><%= @product.name %> </h2>
+<div class="container">
+  <div class="card" style="width: 50rem;">
+    <div class="card-img-top" >
+      <% begin %>
+        <%= image_tag(@product.image, width: 200, height: 200) %>
+      <% rescue %>
+        <%= @product.image %>
+      <% end %>
+    </div>
+    <div class="card-body">
+      <div class="card-title">
+      <h5> <%= @product.name %> </h5></div>
+      <p class="card-text"> <%= @product.price %></p>
+      <p class="card-text">  <%= @product.description %></p>
+      <a href="#" class="btn btn-primary">Buy</a>
+      <a href="#" class="btn btn-primary">Add to Cart</a>
+      <li><%= link_to "Home", root_path(@product) %></li>
+      <% if is_admin? %>
+        <li><%= link_to "Edit", edit_product_path(@product) %></li>
+        <li><%= link_to "Destroy", product_path(@product), data: {
+                    method: :delete,
+                    confirm: "Are you sure?"
+                  } %></li>
+      <% end %>
+    </div>
+  </div>
+</div>

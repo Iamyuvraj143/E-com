@@ -1,1 +1,31 @@
 <h1>Welcome to E-com</h1>
+<div class="row">
+  <% @products.each do |product| %>
+    <div  class="card " style="width: 20rem;">
+      <div class="card-img-top" >
+      <% begin %>
+        <%= image_tag(product.image, width: 200, height: 200) %>
+      <% rescue %>
+        <%= product.image %>
+      <% end %>
+      </div>
+      <div class="card-body">
+        <div class="card-title">
+        <h5> <%= link_to product.name, product %> </h5></div>
+        <p class="card-text"> <%= product.price %></p>
+        <p class="card-text"> <%= truncate product.description, length: 100 %></p>
+        <% if product.quantity > 0 %>
+          <p> <h6 style="color:MediumSeaGreen;">In Stock</h6>
+        <% else %>
+          <h6 style="color:Tomato;">Out of Stock</h6></p>
+        <% end %> 
+        <a href="#" class="btn btn-primary">Buy</a>
+        <a href="#" class="btn btn-primary">Add to cart</a>
+      </div>
+    </div>
+  <% end %>
+</div>
+<% if is_admin? %>
+  <h6> You are admin , can add more items</h6>
+  <%= link_to "Add new product", new_product_path %>
+<% end %>
