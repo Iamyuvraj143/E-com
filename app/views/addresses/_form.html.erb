@@ -1,0 +1,47 @@
+<h2>Add a address:</h2>
+<%= form_with model: [ @user, @address ] do |form| %>
+
+  <p>
+    <%= form.label :address %><br>
+    <%= form.text_field :address_line %>
+    <% @address.errors.full_messages_for(:address_line).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </p>
+
+  <p>
+    <%= form.label :city %><br>
+    <%= form.text_area :city %>
+    <% @address.errors.full_messages_for(:city).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </p>
+
+   <p>
+    <%= form.label :state %><br>
+    <%= form.text_area :state %>
+    <% @address.errors.full_messages_for(:state).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </p>
+
+   <p>
+    <%= form.label :country %><br>
+    <%= form.text_area :country %>
+    <% @address.errors.full_messages_for(:country).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </p>
+
+   <p>
+    <%= form.label :zipcode %><br>
+    <%= form.number_field :zipcode %>
+    <% @address.errors.full_messages_for(:zipcode).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>

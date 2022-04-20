@@ -3,7 +3,11 @@
 <div class="container">
   <div class="card" style="width: 50rem;">
     <div class="card-img-top" >
-    <%= image_tag(@product.image, width: 200, height: 200) %>
+      <% begin %>
+        <%= image_tag(@product.image, width: 200, height: 200) %>
+      <% rescue %>
+        <%= @product.image %>
+      <% end %>
     </div>
     <div class="card-body">
       <div class="card-title">
@@ -13,11 +17,11 @@
       <a href="#" class="btn btn-primary">Buy</a>
       <a href="#" class="btn btn-primary">Add to Cart</a>
       <li><%= link_to "Home", root_path(@product) %></li>
-      <% if Current.user && Current.user.email=="admin@gmail.com" %>
+      <% if @is_admin %>
         <li><%= link_to "Edit", edit_product_path(@product) %></li>
         <li><%= link_to "Destroy", product_path(@product), data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
+                    method: :delete,
+                    confirm: "Are you sure?"
                   } %></li>
       <% end %>
     </div>

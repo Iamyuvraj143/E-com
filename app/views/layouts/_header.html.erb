@@ -1,15 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
   <div class="container-fluid">
     <%= image_tag("https://www.seekpng.com/png/detail/429-4290324_website-development-company-in-delhi-ecommerce-website-logo.png", width: 200, height: 50) %>
-    <a class="navbar-brand" href="#">E-com</a>
+     <a> <%= link_to 'E-com', root_path,  :class => 'navbar-brand'  %></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Category
@@ -17,6 +14,8 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="#">Mobile Phones</a></li>
             <li><a class="dropdown-item" href="#">Mobile accessories</a></li>
+            <li><a class="dropdown-item" href="#">Laptop</a></li>
+            <li><a class="dropdown-item" href="#">Books</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
@@ -34,28 +33,25 @@
           <a class="nav-link active position-relative" aria-current="page" href="#">My cart</a>
         </li> 
         <% if Current.user %>
-          <li class="nav-item">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-             Account
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">My Orders</a></li>
-              <li><a class="dropdown-item" href="#">Edit Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li>  <%= button_to 'Logout', logout_path,  method: :delete, :class => 'dropdown-item'  %></li>
-            </ul>
-          </li>
+            <li class="nav-item">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle nav-link active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Account</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">My Oders</a></li>
+                <li>  <%= link_to 'Profile', user_path(@user),  :class => 'dropdown-item' %></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>  <%= link_to 'Logout', logout_path,  method: :delete, :class => 'dropdown-item'  %></li>
+              </ul>
+            </li>
         <% else %>
           <li class="nav-item">
-          <%= link_to "Login", sign_in_path, :class => 'nav-link active'  %>
-          </li>
+          <%= link_to "Login", sign_in_path, :class => 'nav-link active' %></li>
         <% end %>
           <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Help</a>
-        </li>
-      </li>
-      </ul> 
+          </li>
+        </ul> 
     </div>
   </div>
 </nav>

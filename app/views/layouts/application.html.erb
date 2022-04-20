@@ -11,11 +11,10 @@
   </head>
 
   <body>
-    <%= render 'welcome/header' %>
+    <%=render 'layouts/header' %>
     <% if notice || alert %>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-  <% end %>
-  <%= yield %>
+      <%= render 'layouts/alert' %>
+    <% end %>
+    <%= yield %>
   </body>
 </html>
