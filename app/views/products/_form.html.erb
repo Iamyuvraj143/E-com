@@ -42,15 +42,15 @@
     </div>
 
     <div>
-      <%= form.label :image %><br>
-      <%= form.text_area :image  %><br>
-      <% @product.errors.full_messages_for(:image).each do |message| %>
+      <%= form.label :photos %><br>
+      <%= form.file_field :photos, multiple: true, accept: "image/x-png,image/gif,image/jpeg" %><br>
+      <% @product.errors.full_messages_for(:photos).each do |message| %>
         <div><%= message %></div>
       <% end %>
     </div>
 
     <div>
-      <%= form.submit %>
+     <br> <%= form.submit %>
     </div>
 
   </div>

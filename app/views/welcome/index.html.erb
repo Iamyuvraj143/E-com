@@ -3,10 +3,8 @@
   <% @products.each do |product| %>
     <div  class="card " style="width: 20rem;">
       <div class="card-img-top" >
-      <% begin %>
-        <%= image_tag(product.image, width: 200, height: 200) %>
-      <% rescue %>
-        <%= product.image %>
+      <% if product.photos.attached? %>
+        <%= image_tag(product.photos[0], width: 200, height: 200) %>
       <% end %>
       </div>
       <div class="card-body">
