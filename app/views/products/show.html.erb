@@ -4,7 +4,7 @@
   <div class="card" style="width: 50rem;">
     <div class="card-img-top" >
       <% if @product.photos.attached? %>
-        <%= image_tag @product.photos[0], :size => "260x180", :class=> "img-circular" %>
+        <%= image_tag @product.photos[0], size: "260x180", class: "img-circular" %>
       <% end %>
     </div>
     <div class="card-body">
@@ -23,11 +23,10 @@
       <% end %>
     </div>
   </div></br>
-  <div class= "container">
-        <% if @product.photos.attached? %>
-          <% @product.photos.each do |photo| %>
-            </br><%= image_tag photo, width: 1000, height: 700 %></br>
-          <% end %>
-        <% end %>
-  </div>  
-</div>
+<div class= "container">
+  <% if @product.photos.attached? %>
+    <% @product.photos.each do |photo| %>
+      </br><%= image_tag photo, width: 1000, height: 700 %></br>
+    <% end %>
+  <% end %>
+</div> 
