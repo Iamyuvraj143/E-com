@@ -3,10 +3,8 @@
 <div class="container">
   <div class="card" style="width: 50rem;">
     <div class="card-img-top" >
-      <% begin %>
-        <%= image_tag(@product.image, width: 200, height: 200) %>
-      <% rescue %>
-        <%= @product.image %>
+      <% if @product.photos.attached? %>
+        <%= image_tag @product.photos[0], :size => "260x180", :class=> "img-circular" %>
       <% end %>
     </div>
     <div class="card-body">
@@ -16,7 +14,6 @@
       <p class="card-text">  <%= @product.description %></p>
       <a href="#" class="btn btn-primary">Buy</a>
       <a href="#" class="btn btn-primary">Add to Cart</a>
-      <li><%= link_to "Home", root_path(@product) %></li>
       <% if is_admin? %>
         <li><%= link_to "Edit", edit_product_path(@product) %></li>
         <li><%= link_to "Destroy", product_path(@product), data: {
@@ -25,5 +22,12 @@
                   } %></li>
       <% end %>
     </div>
-  </div>
+  </div></br>
+  <div class= "container">
+        <% if @product.photos.attached? %>
+          <% @product.photos.each do |photo| %>
+            </br><%= image_tag photo, width: 1000, height: 700 %></br>
+          <% end %>
+        <% end %>
+  </div>  
 </div>

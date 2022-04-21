@@ -1,9 +1,9 @@
 <h1>My Account </h1>
   <div class="card ">
-    <% begin %>
-      <%= image_tag @user.image, :size => "260x180", :class=> "img-circular" %>
-    <% rescue %>
-      <%= @user.image %>
+    <% if @user.avatar.attached? %>
+      <%= image_tag @user.avatar, :size => "260x180", :class=> "img-circular" %>
+    <% else %>
+      <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjblwVQ-GlXCaTJnkev2wwBkrWAZQzUehfQ&usqp=CAU", :size => "260x180", :class=> "img-circular" %>
     <% end %>
     <div class="card-body">
       <h5 class="card-title">   Name: <%= @user.name %></h5>
