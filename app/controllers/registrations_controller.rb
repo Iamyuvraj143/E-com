@@ -6,7 +6,9 @@ class RegistrationsController < ApplicationController
   
   def create
     @user = User.new(user_params)
+    @cart = ShoppingCart.new
       if @user.save
+        @user.shopping_cart = @cart
         # stores saved user id in a session
         session[:user_id] = @user.id
         redirect_to root_path, notice: 'Successfully created account'

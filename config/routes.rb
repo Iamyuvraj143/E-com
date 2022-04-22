@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'welcome#index'
   resources :products
+  resources :shopping_cart, only: %i( index )
   get 'sign_up', to: 'registrations#new'
   post 'sign_up', to: 'registrations#create'
   get 'sign_in', to: 'sessions#new'
