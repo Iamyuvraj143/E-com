@@ -16,20 +16,23 @@
       <tbody>
         <tr>
           <th scope="row">1</th>
-            <td><%= item.product.name  %></td>
+          <td><%= item.product.name  %></td>
           <td><%= item.product.price %></td>
           <td><%= item.quantity %></td>
-           <td><%= image_tag(item.product.photos[0], width: 70, height: 70) %></td>
-           <th> <% if item.product.quantity > 0 %>
-             <h6 style="color:MediumSeaGreen;">In Stock</h6>
-             <% else %>
-             <h6 style="color:Tomato;">Out of Stock</h6>
-             <% end %>
-          </th>
-             <td><%= item.cart_product_total %></td>
-            <th><a href="#" class="btn btn-primary">Buy Now</a>
-            <a href="#" class="btn btn-secondary">Remove item</a>
-        </th>    
+          <td><%= image_tag(item.product.photos[0], width: 70, height: 70) %></td>
+          <td><% if item.product.quantity > 0 %>
+                <h6 style="color:MediumSeaGreen;">In Stock</h6>
+              <% else %> 
+                <h6 style="color:Tomato;">Out of Stock</h6>
+              <% end %></th>
+          <td><%= item.cart_product_total %></td>
+          <td><a href="#" class="btn btn-primary">Buy Now</a>
+              <a><%= link_to "Remove item",  cart_product_path(item), class:'btn btn-secondary', data: {
+                    method: :delete,
+                    confirm: "Are you sure?"
+                  } %></a>
+          </td> 
+        </tr>    
       </tbody>
     </table>
   </div>

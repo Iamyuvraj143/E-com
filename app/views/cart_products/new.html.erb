@@ -1,0 +1,21 @@
+<%= form_with model:  @cart_product,  method: :post do |form| %>
+  <div class="container">
+    
+    <div>
+      <%= form.hidden_field :product_id, value: @product_id %>
+    </div>
+
+    <div>
+      <%= form.label :quantity %><br>
+      <%= form.number_field :quantity, value:1, min:1, max:10 %>
+      <% @cart_product.errors.full_messages_for(:quantity).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+
+    <div>
+     <br> <%= form.submit %>
+    </div>
+
+  </div>
+<% end %>
