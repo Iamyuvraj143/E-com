@@ -1,0 +1,39 @@
+<h1> Shopping Cart </h1>
+<% @cart_products.each do |item| %>
+  <div class= "container">
+    <table class="table">
+      <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Image</th>
+        <th scope="col">Availability</th>
+        <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td><%= item.product.name  %></td>
+          <td><%= item.product.price %></td>
+          <td><%= item.quantity %></td>
+          <td><%= image_tag(item.product.photos[0], width: 70, height: 70) %></td>
+          <td><% if item.product.quantity > 0 %>
+                <h6 style="color:MediumSeaGreen;">In Stock</h6>
+              <% else %> 
+                <h6 style="color:Tomato;">Out of Stock</h6>
+              <% end %></th>
+          <td><%= item.total %></td>
+          <td><a href="#" class="btn btn-primary">Buy Now</a>
+              <a><%= link_to "Remove item",  cart_product_path(item), class:'btn btn-secondary', data: {
+                    method: :delete,
+                    confirm: "Are you sure?"
+                  } %></a>
+          </td> 
+        </tr>    
+      </tbody>
+    </table>
+  </div>
+<% end %>
