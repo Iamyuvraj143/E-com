@@ -1,5 +1,5 @@
 <h1> Shopping Cart </h1>
-<% @cart_items.each do |item| %>
+<% @cart_products.each do |item| %>
   <div class= "container">
     <table class="table">
       <thead>
@@ -25,7 +25,7 @@
               <% else %> 
                 <h6 style="color:Tomato;">Out of Stock</h6>
               <% end %></th>
-          <td><%= item.cart_product_total %></td>
+          <td><%= item.total %></td>
           <td><a href="#" class="btn btn-primary">Buy Now</a>
               <a><%= link_to "Remove item",  cart_product_path(item), class:'btn btn-secondary', data: {
                     method: :delete,
