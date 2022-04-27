@@ -26,7 +26,7 @@
                 <h6 style="color:Tomato;">Out of Stock</h6>
               <% end %></th>
           <td><%= item.total %></td>
-          <td><a href="#" class="btn btn-primary">Buy Now</a>
+          <td><a><%= link_to "Buy Now", new_order_path(quantity:item.quantity, product_id:item.product_id, cart_id:item.id), class:'btn btn-primary' %></a>
               <a><%= link_to "Remove item",  cart_product_path(item), class:'btn btn-secondary', data: {
                     method: :delete,
                     confirm: "Are you sure?"

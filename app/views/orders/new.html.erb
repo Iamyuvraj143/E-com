@@ -1,0 +1,37 @@
+<h2>Place Your Order:</h2>
+<div class="container">
+  <div class="card" style="width: 50rem;">
+    <div class="card-img-top" >
+      <% if @product.photos.attached? %>
+        <%= image_tag @product.photos[0], size: "260x180", class: "img-circular" %>
+      <% end %>
+      </div>
+    <div class="card-body">
+      <div class="card-title">
+      <h5> <%= @product.name %> </h5></div>
+      <p class="card-text"> <%= @product.price %></p>
+    </div>
+  </div>
+
+  <%= form_with model: @order do |form| %>
+
+    <%= form.hidden_field :status, value:"In process" %>
+    <%= form.hidden_field :product_id, value:@product.id %>
+    <%= form.hidden_field :cart_id, value:@cart_id %>
+  
+    <p>
+      <%= form.label :quantity %><br>
+      <%= form.number_field :quantity, value:@quantity, min:1, max:10, class: "form-control"%>
+    </p>
+
+    <h4> select a Order Address </h4>
+    <p>
+      <%= form.label :address %><br>
+      <%= form.select :address, @addresses.map { |a| [a.address_line, a.city, a.zipcode, a.state, a.country].to_s}, {}, class: "form-control" %>
+    </p>
+ 
+    <p>
+      <%= form.submit %>
+    </p>
+    
+<% end %>
