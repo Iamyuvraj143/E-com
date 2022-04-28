@@ -7,15 +7,13 @@
        <%= form.hidden_field :status, value:"Cancel" %>
     </p>
 
-    <p>Do not want to cancel order</p>
-    <%link_to "back to order", @order %>
-
      <p>
       <%= form.label :address %><br>
       <%= form.hidden_field :address %>
   
     <p>
       <%= form.submit %>
-    </p>
-    
+    </p>   
 <% end %>
+<p>Do not want to cancel order</p>
+<%= link_to "back to order", @order  %>

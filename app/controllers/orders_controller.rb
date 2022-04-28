@@ -1,14 +1,15 @@
 class OrdersController < ApplicationController
   before_action :auth_check
   before_action :create_order_essentials, only: %i(create)
+  before_action :load_order_for_edit_update, only: %i(edit update)
 
   def index
-    @orders = Current.user.orders.compact
+    @orders = Current.user.orders.eager_load(:order_items)
   end
 
   def new
     @quantity =  params[:quantity]
-    product_id = params[:product_id]
+    product_id = params[:product_id]  
     @cart_id =   params[:cart_id]
     @product = Product.find_by(id: product_id)
     unless @product.present?
@@ -48,16 +49,9 @@ class OrdersController < ApplicationController
     end
   end
 
-  def edit
-    @order = Order.find_by(id: params[:id])
-  end
+  def edit; end
 
   def update
-    @order = Order.find_by(id: params[:id])
-    unless @order.present?
-      redirect_to root_path
-      flash[:notice] = "Something went Wrong :- Order does not exist."
-    end
     if @order.update(order_params)
       redirect_to @order
       flash[:notice] = "Order cancelled succesfully."
@@ -95,6 +89,14 @@ class OrdersController < ApplicationController
     end
     @cart = CartProduct.find_by(id:cart_id)
     @total = @product.price * @quantity.to_f
+ end
+
+ def load_order_for_edit_update
+   @order = Order.find_by(id: params[:id])
+    unless @order.present?
+      redirect_to root_path
+      flash[:notice] = "Something went Wrong :- Order does not exist."
+    end
  end
 
 end
