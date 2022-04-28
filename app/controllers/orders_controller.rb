@@ -1,7 +1,8 @@
 class OrdersController < ApplicationController
   before_action :auth_check
+  before_action :load_user_and_addresses,  only: %i(new)
   before_action :create_order_essentials, only: %i(create)
-  before_action :load_order_for_edit_update, only: %i(edit update)
+  before_action :load_order, only: %i(edit update)
   before_action :new_order_load, only: %i(new)
 
   def index
@@ -10,21 +11,11 @@ class OrdersController < ApplicationController
 
   def new
     check_product_stock
-    @user = Current.user
-    @addresses = @user.addresses
-    unless @addresses.present?
-      redirect_to @user
-      flash[:notice] = "Please add a address first"
-    end
     @order = @user.orders.new
   end
 
   def show
-    @order = Current.user.orders.find_by(id: params[:id])
-    unless @order.present?
-      redirect_to root_path
-      flash[:notice] = "Something went Wrong :- Order does not exist."
-    end
+    load_order
     @order_item = @order.order_items
   end
 
@@ -85,7 +76,7 @@ class OrdersController < ApplicationController
     @total = @product.price * @quantity.to_f
  end
 
-  def load_order_for_edit_update
+  def load_order
     @order = Current.user.orders.find_by(id: params[:id])
     unless @order.present?
       redirect_to root_path
@@ -100,6 +91,15 @@ class OrdersController < ApplicationController
     unless @product.present?
       redirect_to root_path
       flash[:notice] = "Something went Wrong :- Product does not exist."
+    end
+  end
+
+  def load_user_and_addresses
+    @user = Current.user
+    @addresses = @user.addresses
+    unless @addresses.present?
+      redirect_to @user
+      flash[:notice] = "Please add a address first"
     end
   end
 
