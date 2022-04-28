@@ -11,7 +11,11 @@ class OrdersController < ApplicationController
   def new
     check_product_stock
     @user = Current.user
-    @addresses = @user.addresses.all
+    @addresses = @user.addresses
+    unless @addresses.present?
+      redirect_to @user
+      flash[:notice] = "Please add a address first"
+    end
     @order = @user.orders.new
   end
 
