@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_26_115113) do
+ActiveRecord::Schema.define(version: 2022_04_28_074734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,8 @@ ActiveRecord::Schema.define(version: 2022_04_26_115113) do
     t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "order_item_id"
+    t.index ["order_item_id"], name: "index_products_on_order_item_id", unique: true
   end
 
   create_table "shopping_carts", force: :cascade do |t|
@@ -125,5 +127,6 @@ ActiveRecord::Schema.define(version: 2022_04_26_115113) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "users"
   add_foreign_key "orders", "users"
+  add_foreign_key "products", "order_items"
   add_foreign_key "shopping_carts", "users"
 end

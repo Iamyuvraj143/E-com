@@ -13,25 +13,24 @@
     </div>
   </div>
 
-  <%= form_with model: @order do |form| %>
-
-    <%= form.hidden_field :status, value:"In process" %>
-    <%= form.hidden_field :product_id, value:@product.id %>
-    <%= form.hidden_field :cart_id, value:@cart_id %>
+<%= form_with model: @order do |form| %>
+  <%= form.hidden_field :status, value:"In process" %>
+  <%= form.hidden_field :product_id, value:@product.id %>
+  <%= form.hidden_field :cart_id, value:@cart_id %>
   
-    <p>
-      <%= form.label :quantity %><br>
-      <%= form.number_field :quantity, value:@quantity, min:1, max:10, class: "form-control"%>
-    </p>
+  <p>
+    <%= form.label :quantity %><br>
+    <%= form.number_field :quantity, value:@quantity, min:1, max:10, class: "form-control"%>
+  </p>
 
-    <h4> select a Order Address </h4>
-    <p>
-      <%= form.label :address %><br>
-      <%= form.select :address, @addresses.map { |a| [a.address_line, a.city, a.zipcode, a.state, a.country].to_s}, {}, class: "form-control" %>
-    </p>
+  <h4> select a Order Address </h4>
+  <p>
+    <%= form.label :address %><br>
+    <%= form.select :address, @addresses.map { |a| [a.address_line, a.city, a.zipcode, a.state, a.country].to_s}, {}, class: "form-control" %>
+  </p>
  
-    <p>
-      <%= form.submit %>
-    </p>
+  <p>
+    <%= form.submit %>
+  </p>
     
 <% end %>

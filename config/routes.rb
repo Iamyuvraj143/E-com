@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :products
   resources :shopping_cart, only: [:index]
   resources :cart_products
-  resources :orders
+  resources :orders, only: %i( new edit create index show update)
   get 'sign_up', to: 'registrations#new'
   post 'sign_up', to: 'registrations#create'
   get 'sign_in', to: 'sessions#new'

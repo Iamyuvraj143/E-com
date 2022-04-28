@@ -1,7 +1,7 @@
 class OrderItem < ApplicationRecord
  
   belongs_to :order
-  has_one :product
+  belongs_to :product
 
   validates :quantity, presence: true, 
                       length: {minimum: 1, maximum: 2},

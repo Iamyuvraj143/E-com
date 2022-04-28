@@ -2,29 +2,21 @@ class OrdersController < ApplicationController
   before_action :auth_check
   before_action :create_order_essentials, only: %i(create)
   before_action :load_order_for_edit_update, only: %i(edit update)
+  before_action :new_order_load, only: %i(new)
 
   def index
     @orders = Current.user.orders.eager_load(:order_items)
   end
 
   def new
-    @quantity =  params[:quantity]
-    product_id = params[:product_id]  
-    @cart_id =   params[:cart_id]
-    @product = Product.find_by(id: product_id)
-    unless @product.present?
-      redirect_to root_path
-      flash[:notice] = "Something went Wrong :- Product does not exist."
-    end
     check_product_stock
     @user = Current.user
     @addresses = @user.addresses.all
     @order = @user.orders.new
-
   end
 
   def show
-    @order = Order.find_by(id: params[:id])
+    @order = Current.user.orders.find_by(id: params[:id])
     unless @order.present?
       redirect_to root_path
       flash[:notice] = "Something went Wrong :- Order does not exist."
@@ -35,13 +27,12 @@ class OrdersController < ApplicationController
   def create
     @order = Current.user.orders.new(order_params)
     if @order.save
-      if @cart.present?
-        @cart.destroy
+      if @cart_product.present?
+        @cart_product.destroy
       end
       @order_item = @order.order_items.new(order_item_params)
       @order_item.price = @total
       @order_item.save
-
       redirect_to @order
       flash[:notice] = "congratulation !! Your Order Placed Successfully. "
     else
@@ -75,28 +66,37 @@ class OrdersController < ApplicationController
     redirect_to root_path
     flash[:notice] = "Currently the product is out of stock"
    end
- end
+  end
 
   def create_order_essentials
-    order_item_parms =  params.require(:order).permit(:quantity, :product_id, :cart_id).to_h
-    @product_id = order_item_parms['product_id']
-    @quantity = order_item_parms['quantity']
-    cart_id  = order_item_parms['cart_id']
+    data_for_order_item =  params.require(:order).permit(:quantity, :product_id, :cart_id).to_h
+    @product_id = data_for_order_item['product_id']
+    @quantity = data_for_order_item['quantity']
     @product = Product.find_by(id: @product_id)
     unless @product.present?
       redirect_to root_path
       flash[:notice] = "Something went Wrong :- Product does not exist."
     end
-    @cart = CartProduct.find_by(id:cart_id)
+    @cart_product = CartProduct.find_by(id:data_for_order_item['cart_id'])
     @total = @product.price * @quantity.to_f
  end
 
- def load_order_for_edit_update
-   @order = Order.find_by(id: params[:id])
+  def load_order_for_edit_update
+    @order = Current.user.orders.find_by(id: params[:id])
     unless @order.present?
       redirect_to root_path
       flash[:notice] = "Something went Wrong :- Order does not exist."
     end
- end
+  end
+
+  def new_order_load
+    @quantity =  params[:quantity]
+    @cart_id =   params[:cart_id]
+    @product = Product.find_by(id: params[:product_id])
+    unless @product.present?
+      redirect_to root_path
+      flash[:notice] = "Something went Wrong :- Product does not exist."
+    end
+  end
 
 end
