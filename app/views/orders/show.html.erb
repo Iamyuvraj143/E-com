@@ -10,8 +10,11 @@
         <p>Product Price: <%= product.price %></p>
         <p>Quantity: <%= item.quantity %></p>
         <p>Total amount to be paid at the time of delivery : <%= item.price %></p>
-        <p>status: <%= @order.status %></p>
-        <p>Order will get deliver at <%= @order.address %></p> 
+        <h4>status: <%= @order.status %></h4>
+        <p>Order will get deliver at <%= @order.address %></p>
+        <% unless @order.status == "delivered"%>
+          <%= link_to "Cancel order", edit_order_path(@order), class:"btn btn-secondary" %>
+        <% end %> 
       </div>
     </div>
   </div>

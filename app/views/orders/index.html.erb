@@ -1,13 +1,13 @@
 <h1> My orders </h1>
 <% @orders.each do |order| %>
-   <% @order_items = order.order_items.all %>
-   <% @order_items.each do |item| %>
+   <% order_items = order.order_items.all %>
+   <% order_items.each do |item| %>
       <% product = Product.find(item.product_id) %>
       <div class="container">
          <div class="card">
             <div class="card-body">
                <%= image_tag(product.photos[0], width: 200, height: 200) %>
-               <p> Product Name : <%= product.name %></p>
+               <p> Product Name : <%=link_to product.name, order %></p>
                <p>Product Price: <%= product.price %></p>
                <p>Quantity: <%= item.quantity %></p>
                <p>Total amount to be paid at the time of delivery : <%= item.price %></p>

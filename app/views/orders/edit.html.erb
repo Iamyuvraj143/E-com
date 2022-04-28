@@ -1,0 +1,21 @@
+ <%= form_with model: @order, method: :Put do |form| %>
+
+
+     <p>Are you sure you want to cancel your order ?</p>
+    <p>
+      <%= form.select :status, ["cancel my Order"], class: "form-control" %>
+       <%= form.hidden_field :status, value:"Cancel" %>
+    </p>
+
+    <p>Do not want to cancel order</p>
+    <%link_to "back to order", @order %>
+
+     <p>
+      <%= form.label :address %><br>
+      <%= form.hidden_field :address %>
+  
+    <p>
+      <%= form.submit %>
+    </p>
+    
+<% end %>

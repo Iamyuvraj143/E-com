@@ -48,6 +48,24 @@ class OrdersController < ApplicationController
     end
   end
 
+  def edit
+    @order = Order.find_by(id: params[:id])
+  end
+
+  def update
+    @order = Order.find_by(id: params[:id])
+    unless @order.present?
+      redirect_to root_path
+      flash[:notice] = "Something went Wrong :- Order does not exist."
+    end
+    if @order.update(order_params)
+      redirect_to @order
+      flash[:notice] = "Order cancelled succesfully."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def order_params
