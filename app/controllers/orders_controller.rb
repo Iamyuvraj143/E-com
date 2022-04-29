@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   before_action :auth_check
+  after_action :update_stock, only: %i(create)
   before_action :load_user_and_addresses,  only: %i(new)
   before_action :create_order_essentials, only: %i(create)
   before_action :load_order, only: %i(edit update)
@@ -101,6 +102,11 @@ class OrdersController < ApplicationController
       redirect_to @user
       flash[:notice] = "Please add a address first"
     end
+  end
+
+  def update_stock
+    @product.quantity -= @quantity.to_i
+    @product.save
   end
 
 end
