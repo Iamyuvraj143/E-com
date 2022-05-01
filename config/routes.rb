@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :shopping_cart, only: [:index]
   resources :cart_products
   resources :orders, only: %i( new edit create index show update)
+  resources :batch_orders, only: %i( new index )
   get 'sign_up', to: 'registrations#new'
   post 'sign_up', to: 'registrations#create'
   get 'sign_in', to: 'sessions#new'

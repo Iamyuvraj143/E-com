@@ -8,10 +8,16 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_check
-    
     unless Current.user
       redirect_to sign_in_path
       flash[:notice] = "You must login First"
+    end
+  end
+
+  def check_product_stock
+    if @product.quantity <= 0
+      redirect_to root_path
+      flash[:notice] = "Currently the product is out of stock"
     end
   end
 

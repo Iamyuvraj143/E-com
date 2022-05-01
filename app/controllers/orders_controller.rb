@@ -23,14 +23,7 @@ class OrdersController < ApplicationController
   def create
     @order = Current.user.orders.new(order_params)
     if @order.save
-      if @cart_product.present?
-        @cart_product.destroy
-      end
-      @order_item = @order.order_items.new(order_item_params)
-      @order_item.price = @total
-      @order_item.save
-      redirect_to @order
-      flash[:notice] = "congratulation !! Your Order Placed Successfully. "
+      order_product
     else
       render :new, status: :unprocessable_entity
     end
@@ -57,13 +50,6 @@ class OrdersController < ApplicationController
     params.require(:order).permit(:product_id, :quantity)
   end
 
-  def check_product_stock
-   if @product.quantity <= 0
-    redirect_to root_path
-    flash[:notice] = "Currently the product is out of stock"
-   end
-  end
-
   def create_order_essentials
     data_for_order_item =  params.require(:order).permit(:quantity, :product_id, :cart_id).to_h
     @product_id = data_for_order_item['product_id']
@@ -75,7 +61,7 @@ class OrdersController < ApplicationController
     end
     @cart_product = CartProduct.find_by(id:data_for_order_item['cart_id'])
     @total = @product.price * @quantity.to_f
- end
+  end
 
   def load_order
     @order = Current.user.orders.find_by(id: params[:id])
@@ -87,12 +73,22 @@ class OrdersController < ApplicationController
 
   def new_order_load
     @quantity =  params[:quantity]
-    @cart_id =   params[:cart_id]
     @product = Product.find_by(id: params[:product_id])
     unless @product.present?
       redirect_to root_path
       flash[:notice] = "Something went Wrong :- Product does not exist."
     end
+  end
+
+  def order_product
+    if @cart_product.present?
+      @cart_product.destroy
+    end
+    @order_item = @order.order_items.new(order_item_params)
+    @order_item.price = @total
+    @order_item.save
+    redirect_to @order
+    flash[:notice] = "congratulation !! Your Order Placed Successfully. "
   end
 
   def load_user_and_addresses

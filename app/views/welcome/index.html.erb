@@ -17,8 +17,8 @@
         <% else %>
           <p><h6 style="color:Tomato;">Out of Stock</h6></p>
         <% end %> 
-        <a><%= link_to "Buy Now", new_order_path(product_id:product.id), class:'btn btn-primary' %></a>
-        <a><%= link_to "Add to cart", new_cart_product_path(product_id:product.id), class:'btn btn-primary' %></a>
+        <a><%= link_to "Buy Now", new_order_path(product_id:product.id), class:'btn btn-primary' if product.quantity > 0 %></a>
+        <a><%= link_to "Add to cart", new_cart_product_path(product_id:product.id), class:'btn btn-primary' if product.quantity > 0  %></a>
       </div>
     </div>
   <% end %>
