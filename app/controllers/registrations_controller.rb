@@ -9,7 +9,7 @@ class RegistrationsController < ApplicationController
       if @user.save
         # stores saved user id in a session
         session[:user_id] = @user.id
-        UserMailer.with(user: @user).welcome_email.deliver_now
+        SendEmailJob.perform_now(@user)
         redirect_to root_path, notice: 'Successfully created account'
       else
         render :new
