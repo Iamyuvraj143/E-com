@@ -1,20 +1,8 @@
 class UsersController < ApplicationController
- before_action :auth_check
+ before_action :authenticate_user!
   
   def show
-    @user = Current.user
-    @addresses = @user.addresses.compact
-  end
-
-  private
-
-  def auth_check
-    # allows only logged in user
-    @user = User.find_by(id: params[:id])  
-    if Current.user.id != @user&.id  
-      redirect_to root_path
-      flash[:notice] = "Invalid opertion performed. "
-    end
+    @addresses = current_user.addresses.compact
   end
 
 end

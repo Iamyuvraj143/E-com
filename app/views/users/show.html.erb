@@ -1,17 +1,18 @@
 <h1>My Account </h1>
   <div class="card ">
-    <% if @user.avatar.attached? %>
-      <%= image_tag @user.avatar, size: "260x180", class: "img-circular" %>
+    <% if current_user.avatar.attached? %>
+      <%= image_tag current_user.avatar, size: "260x180", class: "img-circular" %>
     <% else %>
       <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjblwVQ-GlXCaTJnkev2wwBkrWAZQzUehfQ&usqp=CAU", size: "260x180", class: "img-circular" %>
     <% end %>
     <div class="card-body">
-      <h5 class="card-title">   Name: <%= @user.name %></h5>
-      <p class="card-text"> Logged in as: <%= @user.email %></p>
+      <h5 class="card-title">   Name: <%= current_user.name %></h5>
+      <p class="card-text"> Logged in as: <%= current_user.email %></p>
+       <%= link_to "edit Profile", edit_user_registration_path %>
       <div class="card">
         <h6> Addresses </h6>
         <%= render @addresses  %>
-        <%= link_to "Add a new Addeess", new_user_address_path(@user, @address) %>
+        <%= link_to "Add a new Addeess", new_user_address_path(current_user.id, @address) %>
       </div>
     </div>
   </div>

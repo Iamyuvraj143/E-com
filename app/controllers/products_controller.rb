@@ -10,10 +10,9 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-
     if @product.save
       redirect_to @product
-       flash[:notice] = "Product added succesfully."
+      flash[:notice] = "Product added succesfully."
     else
       render :new
     end
@@ -42,7 +41,7 @@ class ProductsController < ApplicationController
   end
 
   def admin_authorization
-    if Current.user&.email != "admin@gmail.com"
+    if current_user&.email != "admin@gmail.com"
       redirect_to root_path
       flash[:notice] = "You can not perform certain actions"
     end
