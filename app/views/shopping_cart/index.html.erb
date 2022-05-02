@@ -42,10 +42,10 @@
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
     select a address
     </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <% @addresses.each do |address| %>
-          <li><%= link_to address.address_line, batch_orders_path(cart_id: @cart.id, address:address),  :class => 'dropdown-item' %><li>
-        <% end %>
-       </ul>
-    </div>  
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <% @addresses.each do |address| %>
+        <li><%= link_to address.address_line, batch_orders_path(cart_id: @cart.id, address:address),  :class => 'dropdown-item' %><li>
+      <% end %>
+    </ul>
+  </div>  
 <% end %>

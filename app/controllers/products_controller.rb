@@ -12,8 +12,7 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     if @product.save
-      redirect_to @product
-       flash[:notice] = "Product added succesfully."
+      redirect_handler(@product, "Product added succesfully.")
     else
       render :new
     end
@@ -23,7 +22,7 @@ class ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      redirect_to @product
+      redirect_handler(@product, "Product Updated succesfully.")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -31,8 +30,7 @@ class ProductsController < ApplicationController
 
   def destroy
     @product.destroy
-    redirect_to root_path, status: :see_other
-    flash[:notice] = "Product Deleted Succesfully."
+    redirect_handler(root_path, "Product Deleted Succesfully.")
   end
 
   private
@@ -43,16 +41,14 @@ class ProductsController < ApplicationController
 
   def admin_authorization
     if Current.user&.email != "admin@gmail.com"
-      redirect_to root_path
-      flash[:notice] = "You can not perform certain actions"
+      redirect_handler(root_path, "You can not perform certain actions")
     end
   end
 
   def load_product
     @product = Product.find_by(id: params[:id])
     unless @product.present?
-      redirect_to root_path
-      flash[:notice] = "Something went Wrong :- Product does not exist."
+      redirect_handler(root_path, "Something went Wrong :- Product does not exist.")
     end
   end
 

@@ -10,8 +10,7 @@
         <p>Quantity: <%= item.quantity %></p>
         <p>Total amount to be paid at the time of delivery : <%= item.price %></p>
         <h4>status: <%= @order.status %></h4>
-        <p>Order will get deliver at <%= @order.address %></p>
-        <% if @order.status == "In process"%>
+        <% if @order.status.casecmp("In process")%>
           <%= link_to "Cancel order", edit_order_path(@order), class:"btn btn-secondary" %>
         <% end %> 
       </div>

@@ -15,8 +15,7 @@ class BatchOrdersController < ApplicationController
   def load_cart
     @cart = ShoppingCart.find_by(id:params[:cart_id])
     unless @cart.present?
-      redirect_to shopping_cart_index_path
-      flash[:notice] = "Something went Wrong"
+      redirect_handler(shopping_cart_index_path, "Something went Wrong")
     end
     @cart_products = @cart.cart_products
   end
@@ -28,7 +27,6 @@ class BatchOrdersController < ApplicationController
       @order_item = @order.order_items.create(product_id:item.product_id, quantity:item.quantity, price:item.total)
       item.product.quantity -= item.quantity.to_i
       item.product.save
-      flash[:notice] = "congratulation !! Your Order Placed Successfully. "
       @cart_products.delete(item) 
     end
   end
@@ -38,7 +36,7 @@ class BatchOrdersController < ApplicationController
    @order_list = Array.new
    @cart_products.each do |item|
       unless item.product.quantity < item.quantity 
-         @order_list.push(item)
+        @order_list.push(item)
       end
     end
   end
@@ -46,8 +44,7 @@ class BatchOrdersController < ApplicationController
   def load_order_address
     @address = Address.find_by(id: params[:address])
     unless @address.present?
-      redirect_to shopping_cart_index_path
-      flash[:notice] = "Something went Wrong"
+      redirect_handler(shopping_cart_index_path, "Something went Wrong")
     end
   end
 
