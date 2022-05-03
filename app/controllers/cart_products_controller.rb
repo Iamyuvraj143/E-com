@@ -9,11 +9,15 @@ class CartProductsController < ApplicationController
   def create
     @cart_product = @cart.cart_products.new(cart_params)
     @cart_product.total = @cart_product.product.price * @cart_product.quantity
-    if @cart_product.save
-      redirect_to shopping_cart_index_path status: 303
-      flash[:notice] = "added to cart"
-    else
-      render :new 
+    respond_to do |format|
+      if @cart_product.save
+        format.html { redirect_to shopping_cart_index_path, notice: 'Added to cart' }
+        format.js
+        format.json { render json: @cart_product, status: :created, location: root_path }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @cart_product.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -34,12 +38,6 @@ class CartProductsController < ApplicationController
 
   def cart_params
     params.require(:cart_product).permit(:product_id, :quantity, :total)
-  end
-
-  def load_cart
-    user = Current.user
-    @cart = user.shopping_cart
-    @product_id = params[:product_id]
   end
 
 end

@@ -15,4 +15,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def load_cart
+    if Current.user
+      user = Current.user
+      @cart = user.shopping_cart
+      @product_id = params[:product_id]
+      @cart_product = @cart.cart_products.new
+    end
+  end
+
 end

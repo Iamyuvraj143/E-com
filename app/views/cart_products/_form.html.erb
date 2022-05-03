@@ -1,0 +1,19 @@
+<%= form_with model:  @cart_product,  method: :post, local: false do |form| %>
+
+ <div class="modal-body">
+  <%= form.hidden_field :product_id, value: @product_id %>
+  <div>
+    <%= form.label :quantity %><br>
+    <%= form.number_field :quantity, value:1, min:1, max:10 %>
+    <% @cart_product.errors.full_messages_for(:quantity).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+  
+  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <%= form.submit "Add to cart", class:'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

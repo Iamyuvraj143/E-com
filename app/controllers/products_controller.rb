@@ -1,12 +1,14 @@
 class ProductsController < ApplicationController
   before_action :admin_authorization, only: %i(new create edit destroy update)
   before_action :load_product, only: %i(show edit destroy update)
+  before_action :load_cart, only: %i( show )
 
   def new
     @product = Product.new
   end
 
-  def show; end
+  def show
+  end
 
   def create
     @product = Product.new(product_params)

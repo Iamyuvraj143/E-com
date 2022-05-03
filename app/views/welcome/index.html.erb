@@ -18,7 +18,7 @@
           <p><h6 style="color:Tomato;">Out of Stock</h6></p>
         <% end %> 
         <a href="#" class="btn btn-primary">Buy</a>
-        <a><%= link_to "Add to cart", new_cart_product_path(product_id:product.id), class:'btn btn-primary' %></a>
+        <a><%= link_to "Add to cart", new_cart_product_path(product_id:product.id), class:'btn btn-primary', data: { bs_toggle: 'modal', bs_target: '#addToCartModal', remote: true } %></a>
       </div>
     </div>
   <% end %>
@@ -27,3 +27,6 @@
   <h6> You are admin , can add more items</h6>
   <%= link_to "Add new product", new_product_path %>
 <% end %>
+
+<!-- Modal -->
+<%= render 'cart_products/add_to_cart_modal' %>
