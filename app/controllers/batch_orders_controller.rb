@@ -1,7 +1,6 @@
 class BatchOrdersController < ApplicationController
   before_action :load_cart, only: %i(index , new)
   before_action :load_order_address, only: %i(index , new)
-  before_action :remove_out_of_stock_item, only: %i(index , new)
   after_action :place_order, only: %i(new)
 
   def new; end
@@ -18,6 +17,7 @@ class BatchOrdersController < ApplicationController
       redirect_handler(shopping_cart_index_path, "Something went Wrong")
     end
     @cart_products = @cart.cart_products
+    @order_list = @cart.cart_products.joins(:product).with_in_stock
   end
 
   def place_order
@@ -31,18 +31,8 @@ class BatchOrdersController < ApplicationController
     end
   end
 
-  def remove_out_of_stock_item
-   @cart_products = @cart.cart_products
-   @order_list = Array.new
-   @cart_products.each do |item|
-      unless item.product.quantity < item.quantity 
-        @order_list.push(item)
-      end
-    end
-  end
-
   def load_order_address
-    @address = Address.find_by(id: params[:address])
+    @address = Current.user.addresses.find_by(id: params[:address])
     unless @address.present?
       redirect_handler(shopping_cart_index_path, "Something went Wrong")
     end
