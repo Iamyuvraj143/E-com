@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { account_update: "users/registrations", sign_up:"users/registrations" }
+  devise_for :users, controllers: { session: "users/registrations", sign_up:"users/registrations" }
   root 'welcome#index'
   resources :products
   resources :shopping_cart, only: [:index]
