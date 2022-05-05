@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :set_current_user
-  before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :configure_permitted_parameters1, if: :devise_controller?
+  before_action :configure_sign_up_params_permitted_parameters, if: :devise_controller?
+  before_action :configure_account_update_permitted_parameters, if: :devise_controller?
 
 
   private
@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
 
    protected
 
-  def configure_permitted_parameters
+  def configure_sign_up_params_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :avatar])
   end
 
-  def configure_permitted_parameters1
+  def configure_account_update_permitted_parameters
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar])
   end
 
