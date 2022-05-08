@@ -1,5 +1,5 @@
-<h1> Shopping Cart </h1>
-<% @cart_products.each do |item| %>
+<h1> batch order index </h1>
+<% @order_list.each do |item| %>
   <div class= "container">
     <table class="table">
       <thead>
@@ -26,18 +26,29 @@
                 <h6 style="color:Tomato;">Out of Stock</h6>
               <% end %></th>
           <td><%= item.total %></td>
-            <td><%= link_to "Remove item",  cart_product_path(item), class:'btn btn-secondary', data: {
-                    method: :delete,
-                    confirm: "Are you sure?"
-                  } %></a>
-          </td> 
+          <% @grand_total += item.total if item.product.quantity >= item.quantity %>
         </tr>    
       </tbody>
     </table>
   </div>
 <% end %>
-<% if @cart_products.present? %>
-  <div><%= link_to "Checkout", new_order_path(cart_id: @cart.id, batch_order?:true),  :class => 'btn btn-primary' %><div>
-    </ul>
-  </div>  
+<% if @order_list.present? %>
+<div class="container">
+  <h5>Grand Total : <%= @grand_total %></h5>
+ 
+ <%= form_with model: @order do |form| %>
+
+ <h4> select a Order Address </h4>
+  <%= form.hidden_field :batch_order, value:true %>
+  <%= form.hidden_field :cart_id, value:@cart.id %>
+  <p>
+    <%= form.label :address %><br>
+    <%= form.select :address, @addresses.map { |a| [a.address_line, a.city, a.zipcode, a.state, a.country].to_s}, {}, class: "form-control" %>
+  </p>
+
+   <p>
+    <%= form.submit %>
+  </p>
+  </div>
+ <% end %>
 <% end %>

@@ -2,11 +2,11 @@ class OrdersController < ApplicationController
   before_action :auth_check
   before_action :load_user_addresses,  only: %i(new)
   before_action :new_order_load, only: %i(new)
-  before_action :check_product_stock, only: %i(new)
   after_action :update_stock, only: %i(create)
-  before_action :create_order_essentials, only: %i(create)
+  before_action :get_data_for_batch_order, only: %i(create)
+  before_action :create_single_order_essentials, only: %i(create)
+  before_action :single_order, only: %i(create)
   before_action :load_order, only: %i(edit update show)
-
 
   def index
     @orders = Current.user.orders.eager_load(:order_items)
@@ -21,11 +21,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Current.user.orders.new(order_params)
-    if @order.save
-      order_product
-    else
-      render :new, status: :unprocessable_entity
+    if @batch_order
+      place_batch_order
+      redirect_handler(orders_path, "Your all order placed ")
     end
   end
 
@@ -49,17 +47,29 @@ class OrdersController < ApplicationController
     params.require(:order).permit(:product_id, :quantity)
   end
 
-  def create_order_essentials
-    data_for_order_item =  params.require(:order).permit(:quantity, :product_id, :cart_id).to_h
-    product_id = data_for_order_item['product_id']
-    @quantity = data_for_order_item['quantity']
-    @product = Product.find_by(id: product_id)
-
-    unless @product.present?
-      redirect_handler(root_path, "Something went Wrong :- Product does not exist.")
+  def single_order
+    unless @batch_order
+      @order = Current.user.orders.new(order_params)
+      if @order.save
+        order_product
+      else
+        render :new, status: :unprocessable_entity
+      end
     end
-    @cart_product = CartProduct.find_by(id:data_for_order_item['cart_id'])
-    @total = @product.price * @quantity.to_f
+  end
+
+  def create_single_order_essentials
+    unless @batch_order  
+      data_for_order_item =  params.require(:order).permit(:quantity, :product_id, :cart_id).to_h
+      product_id = data_for_order_item['product_id']
+      @quantity = data_for_order_item['quantity']
+      @product = Product.find_by(id: product_id)
+      unless @product.present?
+        redirect_handler(root_path, "Something went Wrong :- Product does not exist.")
+      end
+      @cart_product = CartProduct.find_by(id:data_for_order_item['cart_id'])
+      @total = @product.price * @quantity.to_f
+    end
   end
 
   def load_order
@@ -70,10 +80,18 @@ class OrdersController < ApplicationController
   end
 
   def new_order_load
-    @quantity =  params[:quantity]
-    @product = Product.find_by(id: params[:product_id])
-    unless @product.present?
-      redirect_handler(root_path, "Something went Wrong :- Product does not exist.")
+    @batch_order = params[:batch_order?]
+    if @batch_order
+      @cart = ShoppingCart.find_by(id:params[:cart_id])
+      @grand_total = 0
+      load_cart_and_products
+    else
+      @quantity =  params[:quantity]
+      @product = Product.find_by(id: params[:product_id])
+      check_product_stock
+      unless @product.present?
+        redirect_handler(root_path, "Something went Wrong :- Product does not exist.")
+      end
     end
   end
 
@@ -95,8 +113,50 @@ class OrdersController < ApplicationController
   end
 
   def update_stock
-    @product.quantity -= @quantity.to_i
-    @product.save
+    unless @batch_order
+      @product.quantity -= @quantity.to_i
+      @product.save
+    end
+  end
+
+  def load_cart_and_products
+    @cart = ShoppingCart.find_by(id:params[:cart_id])
+    unless @cart.present?
+      redirect_handler(shopping_cart_index_path, "Something went Wrong")
+    end
+    @cart_products = @cart.cart_products.all
+    @order_list = @cart.cart_products.joins(:product).with_in_stock
+  end
+
+  def load_order_address
+    @address = Current.user.addresses.find_by(id: params[:address])
+    unless @address.present?
+      redirect_handler(shopping_cart_index_path, "Something went Wrong")
+    end
+  end
+
+  def place_batch_order
+    @order_list.each do |item|
+      @order = Current.user.orders.new(address: @address, status:"In Process")
+      @order.save
+      @order_item = @order.order_items.create(product_id:item.product_id, quantity:item.quantity, price:item.total)
+      item.product.quantity -= item.quantity.to_i
+      item.product.save
+      @cart_products.delete(item) 
+    end
+  end
+
+  def get_data_for_batch_order
+    data_for_order_item =  params.require(:order).permit(:address, :cart_id, :batch_order).to_h
+    @batch_order = data_for_order_item['batch_order']
+    @address = data_for_order_item['address']
+    @cart_id = data_for_order_item['cart_id']
+    @address = data_for_order_item['address']
+    @cart = ShoppingCart.find_by(id:@cart_id)
+    if @batch_order
+      @cart_products = @cart.cart_products.all
+      @order_list = @cart.cart_products.joins(:product).with_in_stock
+    end
   end
 
 end
