@@ -1,16 +1,23 @@
 class ApplicationController < ActionController::Base
   before_action :set_current_user
+  before_action :configure_sign_up_params_permitted_parameters, if: :devise_controller?
+  before_action :configure_account_update_permitted_parameters, if: :devise_controller?
+
 
   private
   
   def set_current_user
-    Current.user = User.find_by(id: session[:user_id]) if session[:user_id]
+    current_user = User.find_by(id: session[:user_id]) if session[:user_id]
   end
 
-  def auth_check
-    unless Current.user
-      redirect_handler(sign_in_path, "You must login First")
-    end
+   protected
+
+  def configure_sign_up_params_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :avatar])
+  end
+
+  def configure_account_update_permitted_parameters
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar])
   end
 
   def check_product_stock

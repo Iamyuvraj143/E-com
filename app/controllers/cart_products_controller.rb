@@ -1,5 +1,5 @@
 class CartProductsController < ApplicationController
-  before_action :auth_check
+  before_action :authenticate_user!
   before_action :load_cart, only: %i( new create edit update destroy)
   before_action :check_product_stock, only: %i(new)
 
@@ -34,7 +34,7 @@ class CartProductsController < ApplicationController
   end
 
   def load_cart
-    @cart = Current.user.shopping_cart
+    @cart = current_user.shopping_cart
     @product_id = params[:product_id]
     @product = Product.find_by(id:[@product_id])
   end

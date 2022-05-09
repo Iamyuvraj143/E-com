@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :auth_check
+   before_action :authenticate_user!
   before_action :load_user_addresses,  only: %i(new)
   before_action :new_order_load, only: %i(new)
   after_action :update_stock, only: %i(create)
@@ -9,11 +9,11 @@ class OrdersController < ApplicationController
   before_action :load_order, only: %i(edit update show)
 
   def index
-    @orders = Current.user.orders.eager_load(:order_items)
+    @orders = current_user.orders.eager_load(:order_items)
   end
 
   def new
-    @order = Current.user.orders.new
+    @order = current_user.orders.new
   end
 
   def show
@@ -49,7 +49,7 @@ class OrdersController < ApplicationController
 
   def single_order
     unless @batch_order
-      @order = Current.user.orders.new(order_params)
+      @order = current_user.orders.new(order_params)
       if @order.save
         order_product
       else
@@ -73,7 +73,7 @@ class OrdersController < ApplicationController
   end
 
   def load_order
-    @order = Current.user.orders.find_by(id: params[:id])
+    @order = current_user.orders.find_by(id: params[:id])
     unless @order.present?
       redirect_handler(root_path, "Something went Wrong :- Order does not exist.")
     end
@@ -106,9 +106,9 @@ class OrdersController < ApplicationController
   end
 
   def load_user_addresses
-    @addresses = Current.user.addresses
+    @addresses = current_user.addresses
     unless @addresses.present?
-      redirect_handler(Current.user, "Please add a address")
+      redirect_handler(current_user, "Please add a address")
     end
   end
 
@@ -129,7 +129,7 @@ class OrdersController < ApplicationController
   end
 
   def load_order_address
-    @address = Current.user.addresses.find_by(id: params[:address])
+    @address = current_user.addresses.find_by(id: params[:address])
     unless @address.present?
       redirect_handler(shopping_cart_index_path, "Something went Wrong")
     end
@@ -137,7 +137,7 @@ class OrdersController < ApplicationController
 
   def place_batch_order
     @order_list.each do |item|
-      @order = Current.user.orders.new(address: @address, status:"In Process")
+      @order = current_user.orders.new(address: @address, status:"In Process")
       @order.save
       @order_item = @order.order_items.create(product_id:item.product_id, quantity:item.quantity, price:item.total)
       item.product.quantity -= item.quantity.to_i

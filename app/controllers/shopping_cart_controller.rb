@@ -1,9 +1,9 @@
 class ShoppingCartController < ApplicationController
-  before_action :auth_check
+  before_action :authenticate_user!
   
   def index
-    @cart = Current.user.shopping_cart
-    @addresses = Current.user.addresses
+    @cart = current_user.shopping_cart
+    @addresses = current_user.addresses
     @cart_products = @cart.cart_products
   end
 
