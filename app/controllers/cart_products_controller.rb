@@ -1,8 +1,10 @@
 class CartProductsController < ApplicationController
-  before_action :auth_check
+  before_action :authenticate_user!
   before_action :load_cart, only: %i( new create edit update destroy)
 
   def new
+    @product = Product.find(@product_id)
+    check_product_stock
     @cart_product = @cart.cart_products.new
   end
 
@@ -21,16 +23,13 @@ class CartProductsController < ApplicationController
     end
   end
 
-
   def destroy
     @cart_product = @cart.cart_products.find_by(id: params[:id])
     unless @cart_product.present?
-      redirect_to shopping_cart_index_path
-      flash[:notice] = "Something went Wrong :- Cart item does not exist."
+      redirect_handler(shopping_cart_index_path, "Something went Wrong :- Cart item does not exist.")
     else
-      @cart_product.destroy 
-      redirect_to shopping_cart_index_path status: 303
-      flash[:notice] = "Cart item Removed."
+      @cart_product.destroy
+      redirect_handler(shopping_cart_index_path, "Cart item Removed.")
     end
   end
 

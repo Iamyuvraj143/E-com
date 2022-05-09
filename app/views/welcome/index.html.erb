@@ -1,6 +1,6 @@
 <h1>Welcome to E-com</h1>
 <div class="row">
-  <% @products.each do |product| %>
+  <% @products.each do |product| %> 
     <div  class="card " style="width: 20rem;">
       <div class="card-img-top" >
       <% if product.photos.attached? %>
@@ -16,9 +16,11 @@
           <p><h6 style="color:MediumSeaGreen;">In Stock</h6></p>
         <% else %>
           <p><h6 style="color:Tomato;">Out of Stock</h6></p>
-        <% end %> 
-        <a href="#" class="btn btn-primary">Buy</a>
+        <% end %>
+        <% if product.quantity > 0 %> 
+        <a><%= link_to "Buy Now", new_order_path(product_id:product.id), class:'btn btn-primary' if product.quantity > 0 %></a>
         <a><%= link_to "Add to cart", new_cart_product_path(product_id:product.id), class:'btn btn-primary', data: { bs_toggle: 'modal', bs_target: '#addToCartModal', remote: true } %></a>
+        <% end %>
       </div>
     </div>
   <% end %>
@@ -28,5 +30,7 @@
   <%= link_to "Add new product", new_product_path %>
 <% end %>
 
+<% if user_signed_in? %>
 <!-- Modal -->
 <%= render 'cart_products/add_to_cart_modal' %>
+<% end %>

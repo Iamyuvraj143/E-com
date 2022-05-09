@@ -12,7 +12,7 @@
       <h5> <%= @product.name %> </h5></div>
       <p class="card-text"> <%= @product.price %></p>
       <p class="card-text">  <%= @product.description %></p>
-      <a href="#" class="btn btn-primary">Buy</a>
+      <a><%= link_to "Buy Now", new_order_path(product_id:@product.id), class:'btn btn-primary' if @product.quantity > 0 %></a>
       <a><%= link_to "Add to cart", new_cart_product_path(product_id:@product.id), class:'btn btn-primary', data: { bs_toggle: 'modal', bs_target: '#addToCartModal', remote: true } %></a>
       <% if is_admin? %>
         <li><%= link_to "Edit", edit_product_path(@product) %></li>
@@ -31,5 +31,7 @@
   <% end %>
 </div> 
 
-<!-- Modal -->
-<%= render 'cart_products/add_to_cart_modal' %>
+<% if user_signed_in? %>
+  <!-- Modal -->
+  <%= render 'cart_products/add_to_cart_modal' %>
+<% end %>

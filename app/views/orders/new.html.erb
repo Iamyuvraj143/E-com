@@ -1,0 +1,5 @@
+<% unless @batch_order %>
+  <%= render 'orders/form_single_order' %>
+<% else %>
+  <%= render 'orders/batch_order' %>
+<% end %>

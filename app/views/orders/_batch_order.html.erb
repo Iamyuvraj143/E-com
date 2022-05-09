@@ -1,0 +1,54 @@
+<h1> batch order index </h1>
+<% @order_list.each do |item| %>
+  <div class= "container">
+    <table class="table">
+      <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Image</th>
+        <th scope="col">Availability</th>
+        <th scope="col">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td><%= item.product.name  %></td>
+          <td><%= item.product.price %></td>
+          <td><%= item.quantity %></td>
+          <td><%= image_tag(item.product.photos[0], width: 70, height: 70) %></td>
+          <td><% if item.product.quantity > 0 %>
+                <h6 style="color:MediumSeaGreen;">In Stock</h6>
+              <% else %> 
+                <h6 style="color:Tomato;">Out of Stock</h6>
+              <% end %></th>
+          <td><%= item.total %></td>
+          <% @grand_total += item.total if item.product.quantity >= item.quantity %>
+        </tr>    
+      </tbody>
+    </table>
+  </div>
+<% end %>
+<% if @order_list.present? %>
+<div class="container">
+  <h5>Grand Total : <%= @grand_total %></h5>
+ 
+ <%= form_with model: @order do |form| %>
+
+ <h4> select a Order Address </h4>
+  <%= form.hidden_field :batch_order, value:true %>
+  <%= form.hidden_field :cart_id, value:@cart.id %>
+  <p>
+    <%= form.label :address %><br>
+    <%= form.select :address, @addresses.map { |a| [a.address_line, a.city, a.zipcode, a.state, a.country].to_s}, {}, class: "form-control" %>
+  </p>
+
+   <p>
+    <%= form.submit %>
+  </p>
+  </div>
+ <% end %>
+<% end %>
