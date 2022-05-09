@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-   before_action :authenticate_user!
+  before_action :authenticate_user!
   before_action :load_user_addresses,  only: %i(new)
   before_action :new_order_load, only: %i(new)
   after_action :update_stock, only: %i(create)
@@ -23,7 +23,7 @@ class OrdersController < ApplicationController
   def create
     if @batch_order
       place_batch_order
-      redirect_handler(orders_path, "Your all order placed ")
+      redirect_handler(orders_path, "Your order placed ")
     end
   end
 
@@ -59,16 +59,16 @@ class OrdersController < ApplicationController
   end
 
   def create_single_order_essentials
-    unless @batch_order  
+    unless @batch_order 
       data_for_order_item =  params.require(:order).permit(:quantity, :product_id, :cart_id).to_h
       product_id = data_for_order_item['product_id']
-      @quantity = data_for_order_item['quantity']
+      quantity = data_for_order_item['quantity']
       @product = Product.find_by(id: product_id)
       unless @product.present?
         redirect_handler(root_path, "Something went Wrong :- Product does not exist.")
       end
       @cart_product = CartProduct.find_by(id:data_for_order_item['cart_id'])
-      @total = @product.price * @quantity.to_f
+      @total = @product.price * quantity.to_f
     end
   end
 
@@ -86,7 +86,7 @@ class OrdersController < ApplicationController
       @grand_total = 0
       load_cart_and_products
     else
-      @quantity =  params[:quantity]
+      quantity =  params[:quantity]
       @product = Product.find_by(id: params[:product_id])
       check_product_stock
       unless @product.present?
@@ -114,7 +114,7 @@ class OrdersController < ApplicationController
 
   def update_stock
     unless @batch_order
-      @product.quantity -= @quantity.to_i
+      @product.quantity -= quantity.to_i
       @product.save
     end
   end

@@ -39,7 +39,7 @@ class ProductsController < ApplicationController
   end
 
   def admin_authorization
-    if Current.user&.email != "admin@gmail.com"
+    if current_user&.email != "admin@gmail.com"
       redirect_handler(root_path, "You can not perform certain actions")
     end
   end

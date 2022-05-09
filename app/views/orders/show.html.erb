@@ -1,13 +1,14 @@
 <h1>Thank You for Shopping with us !!</h1>
 <% @order_item.each do |item| %>
   <div class="container">
-    <h1>Order Succesfully Placed for <%= item.product.name %> </h1>
+    <h1>Your Order detail for <%= item.product.name %> </h1>
     <div class="card">
       <div class="card-body">
         <%= image_tag(item.product.photos[0], width: 200, height: 200) %>
         <p>Product Name : <%= item.product.name %></p>
         <p>Product Price: <%= item.product.price %></p>
         <p>Quantity: <%= item.quantity %></p>
+        <p> Order Address : <%= @order.address %>
         <p>Total amount to be paid at the time of delivery : <%= item.price %></p>
         <h4>status: <%= @order.status %></h4>
         <% if @order.status.casecmp("In process")%>
