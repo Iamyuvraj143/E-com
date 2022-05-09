@@ -20,4 +20,15 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar])
   end
 
+  def check_product_stock
+    if @product.quantity <= 0
+      redirect_handler(root_path, "Currently the product is out of stock")
+    end
+  end
+
+  def redirect_handler(redirect_path, message)
+    redirect_to redirect_path
+    flash[:notice] = message
+  end
+
 end

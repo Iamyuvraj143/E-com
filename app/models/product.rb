@@ -2,6 +2,7 @@ class Product < ApplicationRecord
 
   has_many_attached :photos, dependent: :destroy
   has_many :cart_products
+  has_many :order_items
   has_many :shopping_carts, through: :cart_products
 
   validates :name, presence: true

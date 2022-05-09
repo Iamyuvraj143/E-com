@@ -16,9 +16,9 @@
           <p><h6 style="color:MediumSeaGreen;">In Stock</h6></p>
         <% else %>
           <p><h6 style="color:Tomato;">Out of Stock</h6></p>
-        <% end %> 
-        <a href="#" class="btn btn-primary">Buy</a>
-        <a><%= link_to "Add to cart", new_cart_product_path(product_id:product.id), class:'btn btn-primary' %></a>
+        <% end %>
+        <a><%= link_to "Buy Now", new_order_path(product_id:product.id), class:'btn btn-primary' if product.quantity > 0 %></a>
+        <a><%= link_to "Add to cart", new_cart_product_path(product_id:product.id), class:'btn btn-primary' if product.quantity > 0  %></a>
       </div>
     </div>
   <% end %>
