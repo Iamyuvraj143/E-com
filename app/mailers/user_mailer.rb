@@ -6,5 +6,4 @@ class UserMailer < ApplicationMailer
     @url  = 'http://ecom.com/login'
     mail(to: @user.email, subject: 'Welcome to My E-com Site')
   end
-
 end

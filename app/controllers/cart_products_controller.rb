@@ -1,5 +1,5 @@
 class CartProductsController < ApplicationController
-  before_action :auth_check
+  before_action :authenticate_user!
   before_action :load_cart, only: %i( new create edit update destroy)
 
   def new
@@ -37,8 +37,7 @@ class CartProductsController < ApplicationController
   end
 
   def load_cart
-    user = Current.user
-    @cart = user.shopping_cart
+    @cart = current_user.shopping_cart
     @product_id = params[:product_id]
   end
 
