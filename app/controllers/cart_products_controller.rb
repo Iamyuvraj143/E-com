@@ -1,6 +1,7 @@
 class CartProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_cart, only: %i( new create edit update destroy)
+  before_action :load_cart_for_update, only: %i(update)
 
   def new
     @product = Product.find(@product_id)
@@ -33,10 +34,22 @@ class CartProductsController < ApplicationController
     end
   end
 
+  def update; end
+
   private
 
   def cart_params
     params.require(:cart_product).permit(:product_id, :quantity, :total)
+  end
+
+  def load_cart_for_update
+    quantity = params[:qty].to_i
+    cart_product = @cart.cart_products.find_by(id: params[:id])
+    if cart_product.present? && cart_product.product.quantity>=quantity
+      cart_product.update(quantity:quantity)
+    else
+       redirect_handler(shopping_cart_index_path, "Only #{cart_product.product.quantity} products in stock")
+    end
   end
 
 end

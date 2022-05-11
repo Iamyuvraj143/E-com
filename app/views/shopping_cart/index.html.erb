@@ -19,10 +19,8 @@
           <td><%= item.product.name  %></td>
           <td>Rs.<%= item.product.price %></td>
           <td>
-            <span class="btn btn-secondary" >-</span>
-            <%= item.quantity %>
-            <span class="btn btn-primary" >+</span>
-            </td>
+            <input type="number" remote: true id="quantity" min='1' max="<% item.product.quantity%>" onchange="qtyUpdate(this.value, <%= item.id %>, <% item.product.quantity%>)" value='<%= item.quantity %>'   />
+          </td>
           <td><%= image_tag(item.product.photos[0], width: 70, height: 70) %></td>
           <td><% if item.product.quantity > 0 %>
                 <h6 style="color:MediumSeaGreen;">In Stock</h6>
@@ -45,3 +43,20 @@
     </ul>
   </div>  
 <% end %>
+
+<script type="text/javascript">
+  function qtyUpdate(qty, cart_id, product_qty){
+    $.ajax({
+    type: "patch",
+    headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+    url: "cart_products/"+ cart_id,
+    data: { qty: qty},
+    dataType: "json",
+
+    success: function(result){
+        alert(result.d);
+        console.log(result);
+    }
+  });
+  }
+</script>
