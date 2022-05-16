@@ -52,7 +52,7 @@ class CartProductsController < ApplicationController
   end
 
   def load_cart_for_update
-    @quantity = params[:qty].to_i
+    @quantity = params[:quantity].to_i
     @cart_product = @cart.cart_products.find_by(id: params[:id])
   end
 
