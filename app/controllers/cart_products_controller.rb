@@ -4,7 +4,10 @@ class CartProductsController < ApplicationController
   before_action :load_cart_for_update, only: %i(update)
 
   def new
-    @product = Product.find(@product_id)
+    @product = Product.find_by(id: @product_id)
+    unless @product.present?
+      redirect_handler(root_path, "Something went Wrong :- Product does not exist.")
+    end
     check_product_stock
     @cart_product = @cart.cart_products.new
   end
@@ -34,7 +37,13 @@ class CartProductsController < ApplicationController
     end
   end
 
-  def update; end
+  def update
+    if @cart_product.present? && @cart_product.product.quantity >= @quantity
+      @cart_product.update(quantity:@quantity)
+    else
+       redirect_handler(shopping_cart_index_path, "Only #{@cart_product.product.quantity} products in stock")
+    end
+  end
 
   private
 
@@ -43,13 +52,8 @@ class CartProductsController < ApplicationController
   end
 
   def load_cart_for_update
-    quantity = params[:qty].to_i
-    cart_product = @cart.cart_products.find_by(id: params[:id])
-    if cart_product.present? && cart_product.product.quantity>=quantity
-      cart_product.update(quantity:quantity)
-    else
-       redirect_handler(shopping_cart_index_path, "Only #{cart_product.product.quantity} products in stock")
-    end
+    @quantity = params[:qty].to_i
+    @cart_product = @cart.cart_products.find_by(id: params[:id])
   end
 
 end
