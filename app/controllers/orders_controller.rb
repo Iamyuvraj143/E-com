@@ -137,12 +137,14 @@ class OrdersController < ApplicationController
 
   def place_batch_order
     @order_list.each do |item|
-      @order = current_user.orders.new(address: @address, status:"In Process")
-      @order.save
-      @order_item = @order.order_items.create(product_id:item.product_id, quantity:item.quantity, price:item.total)
-      item.product.quantity -= item.quantity.to_i
-      item.product.save
-      @cart_products.delete(item) 
+      if (item.product.quantity >= item.quantity)
+        @order = current_user.orders.new(address: @address, status:"In Process")
+        @order.save
+        @order_item = @order.order_items.create(product_id:item.product_id, quantity:item.quantity, price:item.total)
+        item.product.quantity -= item.quantity.to_i
+        item.product.save
+        @cart_products.delete(item)
+      end 
     end
   end
 

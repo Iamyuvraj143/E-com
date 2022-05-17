@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   before_action :admin_authorization, only: %i(new create edit destroy update)
   before_action :load_product, only: %i(show edit destroy update)
+  before_action :load_cart, only: %i( show )
 
   def new
     @product = Product.new
@@ -39,7 +40,7 @@ class ProductsController < ApplicationController
   end
 
   def admin_authorization
-    if current_user&.email != "admin@gmail.com"
+    if current_user&.email != "ydodiya@gammastack.com"
       redirect_handler(root_path, "You can not perform certain actions")
     end
   end

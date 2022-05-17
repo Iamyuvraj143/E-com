@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     current_user = User.find_by(id: session[:user_id]) if session[:user_id]
   end
 
-   protected
+  protected
 
   def configure_sign_up_params_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :avatar])
@@ -23,6 +23,15 @@ class ApplicationController < ActionController::Base
   def check_product_stock
     if @product.quantity <= 0
       redirect_handler(root_path, "Currently the product is out of stock")
+    end
+  end
+
+  def load_cart
+    if current_user
+      user = current_user
+      @cart = user.shopping_cart
+      @product_id = params[:product_id]
+      @cart_product = @cart.cart_products.new
     end
   end
 
