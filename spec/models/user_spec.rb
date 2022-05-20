@@ -2,10 +2,6 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  before(:all) do
-   # user1 = create(:user)
-  end
-
   context 'before create' do
     it 'cannot have addresses' do
       expect { User.create.addresses.create! }.to raise_error(ActiveRecord::RecordNotSaved)  # test code
@@ -27,8 +23,5 @@ RSpec.describe User, type: :model do
     it { should have_many(:addresses) }
     it { should have_one_attached(:avatar) }
   end
-
-   #it { should have_secure_password }
-   #it { should have_secure_password(:reset_password) }
 
 end
