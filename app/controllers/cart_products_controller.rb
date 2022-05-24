@@ -5,9 +5,7 @@ class CartProductsController < ApplicationController
 
   def new
     @product = Product.find_by(id: @product_id)
-    unless @product.present?
-      redirect_handler(root_path, "Something went Wrong :- Product does not exist.")
-    end
+    null_value_check(@product, root_path, "Something went Wrong :- Product does not exist.")
     check_product_stock
     @cart_product = @cart.cart_products.new
   end
@@ -32,8 +30,8 @@ class CartProductsController < ApplicationController
     unless @cart_product.present?
       redirect_handler(shopping_cart_index_path, "Something went Wrong :- Cart item does not exist.")
     else
-      @cart_product.destroy
-      redirect_handler(shopping_cart_index_path, "Cart item Removed.")
+      @cart_product.destroy 
+      redirect_handler(shopping_cart_index_path, "cart item removed")
     end
   end
 

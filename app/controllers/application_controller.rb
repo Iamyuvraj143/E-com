@@ -40,4 +40,10 @@ class ApplicationController < ActionController::Base
     flash[:notice] = message
   end
 
+  def null_value_check(value , path, message)
+    unless value.present?
+      redirect_handler(path, message)
+    end
+  end
+
 end

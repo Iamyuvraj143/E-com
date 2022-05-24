@@ -47,9 +47,7 @@ class ProductsController < ApplicationController
 
   def load_product
     @product = Product.find_by(id: params[:id])
-    unless @product.present?
-      redirect_handler(root_path, "Something went Wrong :- Product does not exist.")
-    end
+    null_value_check(@product, root_path, "Something went Wrong :- Product does not exist.")
   end
 
 end
