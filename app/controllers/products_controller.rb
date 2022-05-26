@@ -46,7 +46,6 @@ class ProductsController < ApplicationController
   end
 
   def load_product
-    @product = Product.find_by(id: params[:id])
-    null_value_check(@product, root_path, 'Something went Wrong :- Product does not exist.')
+    @product = Product.find(params[:id])
   end
 end

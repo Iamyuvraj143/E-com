@@ -4,8 +4,7 @@ class CartProductsController < ApplicationController
   before_action :load_cart_for_update, only: %i[update]
 
   def new
-    @product = Product.find_by(id: @product_id)
-    null_value_check(@product, root_path, 'Something went Wrong :- Product does not exist.')
+    @product = Product.find(@product_id)
     check_product_stock
     @cart_product = @cart.cart_products.new
   end
@@ -26,7 +25,7 @@ class CartProductsController < ApplicationController
   end
 
   def destroy
-    @cart_product = @cart.cart_products.find_by(id: params[:id])
+    @cart_product = @cart.cart_products.find(params[:id])
     if @cart_product.present?
       @cart_product.destroy
       redirect_handler(shopping_cart_index_path, 'cart item removed')
@@ -51,6 +50,6 @@ class CartProductsController < ApplicationController
 
   def load_cart_for_update
     @quantity = params[:quantity].to_i
-    @cart_product = @cart.cart_products.find_by(id: params[:id])
+    @cart_product = @cart.cart_products.find(params[:id])
   end
 end

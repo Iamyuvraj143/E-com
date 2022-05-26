@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :configure_sign_up_params_permitted_parameters, if: :devise_controller?
   before_action :configure_account_update_permitted_parameters, if: :devise_controller?
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   private
 
@@ -24,10 +25,8 @@ class ApplicationController < ActionController::Base
     flash[:notice] = message
   end
 
-  def null_value_check(value, path, message)
-    return if value.present?
-
-    redirect_handler(path, message)
+  def record_not_found
+    redirect_handler(root_path, 'Error 404: Record not found')
   end
 
   protected

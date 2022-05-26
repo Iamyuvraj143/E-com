@@ -40,10 +40,6 @@ class AddressesController < ApplicationController
   end
 
   def load_user
-    @address = current_user.addresses.find_by(id: params[:id])
-    return if @address.present?
-
-    redirect_to user_path(current_user)
-    flash[:notice] = 'Something went Wrong :- Address does not exist.'
+    @address = current_user.addresses.find(params[:id])
   end
 end

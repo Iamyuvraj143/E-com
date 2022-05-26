@@ -54,14 +54,12 @@ class OrdersController < ApplicationController
 
     data_for_order_item = params.require(:order).permit(:quantity, :product_id).to_h
     @quantity = data_for_order_item['quantity']
-    @product = Product.find_by(id: data_for_order_item['product_id'])
-    null_value_check(@product, root_path, 'Something went Wrong :- Product does not exist.')
+    @product = Product.find(data_for_order_item['product_id'])
     @total = @product.price * @quantity.to_f
   end
 
   def load_order
-    @order = current_user.orders.find_by(id: params[:id])
-    null_value_check(@order, root_path, 'Something went Wrong :- Order does not exist.')
+    @order = current_user.orders.find(params[:id])
   end
 
   def new_order_load
@@ -70,8 +68,7 @@ class OrdersController < ApplicationController
       @grand_total = 0
     else
       @quantity =  params[:quantity]
-      @product = Product.find_by(id: params[:product_id])
-      null_value_check(@product, root_path, 'Something went Wrong :- Product does not exist.')
+      @product = Product.find(params[:product_id])
       check_product_stock
     end
   end
@@ -85,7 +82,6 @@ class OrdersController < ApplicationController
 
   def load_user_addresses
     @addresses = current_user.addresses
-    null_value_check(@addresses, current_user, 'Please add a address')
   end
 
   def update_stock(product, quantity)
