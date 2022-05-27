@@ -1,0 +1,17 @@
+<%= form_with model:  @notify_item,  method: :post, local: false do |form| %>
+
+ <div class="modal-body">
+  <%= form.hidden_field :product_id, value: @product_id %>
+   <%= form.hidden_field :user_id, value: current_user.id %>
+  <div>
+    <%= form.label :email %><br>
+    <%= form.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+  
+  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <%= form.submit "Notify me", class:'btn btn-danger' %>
+    </div>
+  </div>
+<% end %>

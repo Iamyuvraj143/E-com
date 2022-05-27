@@ -16,7 +16,7 @@
           <p><h6 style="color:MediumSeaGreen;">In Stock</h6></p>
         <% else %>
           <p><h6 style="color:Tomato;">Out of Stock</h6></p>
-        <a><%= link_to "Notify me", new_order_path(product_id:product.id), class:'btn btn-danger' %></a>
+        <a><%= link_to "Notify me", new_notify_item_path(product_id:product.id), class:'btn btn-danger',  data: { bs_toggle: 'modal', bs_target: '#notifyMeModal', remote: true } %></a>
         <% end %>
         <% if product.quantity > 0 %> 
         <a><%= link_to "Buy Now", new_order_path(product_id:product.id), class:'btn btn-primary' if product.quantity > 0 %></a>
@@ -33,5 +33,6 @@
 
 <% if user_signed_in? %>
 <!-- Modal -->
-<%= render 'cart_products/add_to_cart_modal' %>
+  <%= render 'cart_products/add_to_cart_modal' %>
+  <%= render 'notify_items/notify_me_modal' %>
 <% end %>
