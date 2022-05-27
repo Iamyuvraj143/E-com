@@ -6,7 +6,6 @@ class User < ApplicationRecord
 
   after_create :create_shopping_cart
   after_create :send_welcome_mail
-  after_commit :send_notify_mail
   has_one :shopping_cart, dependent: :destroy
   has_many :addresses, dependent: :destroy
   has_many :notify_items, dependent: :destroy
@@ -15,9 +14,5 @@ class User < ApplicationRecord
 
   def send_welcome_mail
     SendWelcomeEmailToNewUserJob.perform_now(self)
-  end
-
-  def send_notify_mail
-    SendNotifyEmailToUserJob.perform_now(self)
   end
 end
