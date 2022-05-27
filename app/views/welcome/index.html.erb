@@ -1,7 +1,7 @@
-<h1>Welcome to E-com</h1>
-<div class="row">
-  <% @products.each do |product| %> 
-    <div  class="card " style="width: 20rem;">
+<%=render 'welcome/slider' %>
+<div class="row" >
+  <% @products.each do |product| %>
+    <div  class="card " style="width: 20rem; border-radius: 2.5rem; margin: auto; ">
       <div class="card-img-top" >
       <% if product.photos.attached? %>
         <%= image_tag(product.photos[0], width: 200, height: 200) %>

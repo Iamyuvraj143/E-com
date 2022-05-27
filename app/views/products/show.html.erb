@@ -23,15 +23,7 @@
       <% end %>
     </div>
   </div></br>
-<div class= "container">
-  <% if @product.photos.attached? %>
-    <% @product.photos.each do |photo| %>
-      </br><%= image_tag photo, width: 1000, height: 700 %></br>
-    <% end %>
-  <% end %>
-
-</div>
-
+ <%=render 'products/slider' %>
 <% if user_signed_in? %>
   <!-- Modal -->
   <%= render 'cart_products/add_to_cart_modal' %>
