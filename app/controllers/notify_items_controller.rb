@@ -8,9 +8,8 @@ class NotifyItemsController < ApplicationController
     @notify_item = NotifyItem.create(notify_item_params)
     respond_to do |format|
       if @notify_item.save
-        # format.html { redirect_to shopping_cart_index_path, notice: 'Added to cart' }
         format.js
-        format.json { render json: @cart_product, status: :created, location: root_path }
+        format.json { render json: @notify_item, status: :created, location: root_path }
       else
         format.html { render action: 'new' }
         format.json { render json: @notify_item.errors, status: :unprocessable_entity }
