@@ -16,6 +16,7 @@
           <p><h6 style="color:MediumSeaGreen;">In Stock</h6></p>
         <% else %>
           <p><h6 style="color:Tomato;">Out of Stock</h6></p>
+        <a><%= link_to "Notify me", new_order_path(product_id:product.id), class:'btn btn-danger' %></a>
         <% end %>
         <% if product.quantity > 0 %> 
         <a><%= link_to "Buy Now", new_order_path(product_id:product.id), class:'btn btn-primary' if product.quantity > 0 %></a>
