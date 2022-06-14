@@ -8,6 +8,7 @@ class User < ApplicationRecord
   after_create :send_welcome_mail
   has_one :shopping_cart, dependent: :destroy
   has_many :addresses, dependent: :destroy
+  has_many :notify_items, dependent: :destroy
   has_many :orders, dependent: :destroy
   has_one_attached :avatar, dependent: :destroy
 
