@@ -41,6 +41,7 @@
  <h4> select a Order Address </h4>
   <%= form.hidden_field :batch_order, value:true %>
   <%= form.hidden_field :cart_id, value:@cart.id %>
+  <%= form.hidden_field :status, value:"In process" %>
   <p>
     <%= form.label :address %><br>
     <%= form.select :address, @addresses.map { |a| [a.address_line, a.city, a.zipcode, a.state, a.country].to_s}, {}, class: "form-control" %>

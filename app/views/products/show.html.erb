@@ -13,7 +13,8 @@
       <p class="card-text"> <%= @product.price %></p>
       <p class="card-text">  <%= @product.description %></p>
       <a><%= link_to "Buy Now", new_order_path(product_id:@product.id), class:'btn btn-primary' if @product.quantity > 0 %></a>
-      <a><%= link_to "Add to cart", new_cart_product_path(product_id:@product.id), class:'btn btn-primary', data: { bs_toggle: 'modal', bs_target: '#addToCartModal', remote: true } %></a>
+      <a><%= link_to "Notify me", new_notify_item_path(product_id:@product.id), class:'btn btn-danger',  data: { bs_toggle: 'modal', bs_target: '#notifyMeModal', remote: true  } if @product.quantity <=0 %></a>
+      <a><%= link_to "Add to cart", new_cart_product_path(product_id:@product.id), class:'btn btn-primary', data: { bs_toggle: 'modal', bs_target: '#addToCartModal', remote: true } if @product.quantity > 0 %></a>
       <% if is_admin? %>
         <li><%= link_to "Edit", edit_product_path(@product) %></li>
         <li><%= link_to "Destroy", product_path(@product), data: {
@@ -23,16 +24,9 @@
       <% end %>
     </div>
   </div></br>
-<div class= "container">
-  <% if @product.photos.attached? %>
-    <% @product.photos.each do |photo| %>
-      </br><%= image_tag photo, width: 1000, height: 700 %></br>
-    <% end %>
-  <% end %>
-
-</div>
-
+ <%=render 'products/slider' %>
 <% if user_signed_in? %>
-  <!-- Modal -->
+<!-- Modal -->
   <%= render 'cart_products/add_to_cart_modal' %>
+  <%= render 'notify_items/notify_me_modal' %>
 <% end %>

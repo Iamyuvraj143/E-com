@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-#ActiveRecord::Schema.define(version: 2022_04_28_074734) do
-ActiveRecord::Schema.define(version: 2022_05_01_125604) do
+ActiveRecord::Schema.define(version: 2022_05_27_071940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +74,16 @@ ActiveRecord::Schema.define(version: 2022_05_01_125604) do
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "notify_items", force: :cascade do |t|
+    t.string "email"
+    t.bigint "user_id"
+    t.bigint "product_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_notify_items_on_product_id"
+    t.index ["user_id"], name: "index_notify_items_on_user_id"
   end
 
   create_table "order_items", force: :cascade do |t|
