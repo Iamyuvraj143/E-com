@@ -18,7 +18,7 @@ module ECom
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-     config.active_job.queue_adapter = :sidekiq
+    # config.active_job.queue_adapter = :sidekiq
      config.assets.initialize_on_precompile = false
   end
 end
