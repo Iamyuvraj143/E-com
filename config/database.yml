@@ -22,7 +22,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: shopping_wings
   password: shopping_wings
-  host: localhost
+ # host: localhost
 
 development:
   <<: *default
