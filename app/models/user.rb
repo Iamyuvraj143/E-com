@@ -13,6 +13,6 @@ class User < ApplicationRecord
   has_one_attached :avatar, dependent: :destroy
 
   def send_welcome_mail
-    SendWelcomeEmailToNewUserJob.perform_now(self)
+    #SendWelcomeEmailToNewUserJob.perform_now(self)
   end
 end

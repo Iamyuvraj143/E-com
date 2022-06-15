@@ -1,5 +1,5 @@
 class NotifyMailer < ApplicationMailer
-  default from: 'jarvuy7@gmail.com'
+  default from: 'mymail@gmail.com'
 
   def notify_email
     @notify_item = params[:notify_item]

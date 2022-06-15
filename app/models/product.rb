@@ -12,12 +12,12 @@ class Product < ApplicationRecord
   after_update :notify_user
 
   def notify_user
-    return unless quantity.positive?
+    # return unless quantity.positive?
 
-    notify_items = NotifyItem.with_product_id(id)
-    notify_items.each do |item|
-      SendNotifyEmailToUserJob.perform_now(item, id)
-      NotifyItem.delete(item)
-    end
+    # notify_items = NotifyItem.with_product_id(id)
+    # notify_items.each do |item|
+    #   SendNotifyEmailToUserJob.perform_now(item, id)
+    #   NotifyItem.delete(item)
+    # end
   end
 end
